@@ -122,18 +122,18 @@ const server = http.createServer((req, res) => {
           console.error('修改compose失败:', e.message);
         }
 
-        // 3. 重新创建 lxserver 容器（用新密码环境变量）
-        try {
-          await recreateContainer(data.newPassword);
-        } catch (e) {
-          console.error('重建容器失败:', e.message);
-          res.writeHead(200, { 'Content-Type': 'application/json' });
-          res.end(JSON.stringify({ success: true, warning: '密码已保存，但容器重启失败，请手动重启' }));
-          return;
-        }
-
+        // 3. 先返回成功，后台重建容器
         res.writeHead(200, { 'Content-Type': 'application/json' });
         res.end(JSON.stringify({ success: true }));
+
+        // 后台重建容器
+        setTimeout(async () => {
+          try {
+            await recreateContainer(data.newPassword);
+          } catch (e) {
+            console.error('重建容器失败:', e.message);
+          }
+        }, 500);
       } catch (e) {
         res.writeHead(500, { 'Content-Type': 'application/json' });
         res.end(JSON.stringify({ error: e.message }));
