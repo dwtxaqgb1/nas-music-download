@@ -15,7 +15,7 @@
 ## 快速安装
 
 ```bash
-git clone https://github.com/dwtxaqgb1/nas-music-download.git
+git clone https://github.dwtxaqgb.eu.org/https://github.com/dwtxaqgb1/nas-music-download.git
 cd nas-music-download/docker
 docker-compose up -d
 ```
