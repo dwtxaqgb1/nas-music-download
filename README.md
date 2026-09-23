@@ -11,27 +11,28 @@
 - **音源管理**：支持上传自定义音源，启用/禁用/删除
 - **访客模式**：管理员可设置多个访客密码，访客只能听歌不能下载
 - **多用户**：管理员密码登录，访客密码受限模式
-- **飞牛应用**：支持飞牛 fpk 安装，自定义密码/端口/下载目录
 
-## 安装方式
-
-### 飞牛 fpk 安装
-
-1. 下载 fpk 安装包
-2. 飞牛应用中心上传安装
-3. 安装向导设置：管理员密码、端口、下载目录
-4. 完成安装，访问 http://NAS_IP:端口
-
-### Docker 安装
+## 快速安装
 
 ```bash
-docker run -d \
-  --name nas-music-download \
-  -p 5200:9527 \
-  -e FRONTEND_PASSWORD=your_password \
-  -v /your/music/path:/server/music \
-  xcq0607/lxserver:latest
+git clone https://github.com/dwtxaqgb1/nas-music-download.git
+cd nas-music-download/docker
+docker-compose up -d
 ```
+
+访问 `http://NAS_IP:5200`，默认密码 `123456`。
+
+## 自定义配置
+
+修改 `docker/docker-compose.yml`：
+
+- `FRONTEND_PASSWORD`：管理员密码
+- `5200:80`：端口映射
+- `./music:/server/music`：音乐下载目录
+
+## 飞牛 fpk 安装
+
+下载 fpk 安装包，飞牛应用中心上传安装，安装向导设置管理员密码、端口、下载目录。
 
 ## 使用说明
 
@@ -40,13 +41,6 @@ docker run -d \
 - 音源选择：顶部下拉框切换平台音源
 - 下载：选中歌曲 → 点"下载到NAS"
 - 歌单：选中歌曲 → 点"保存到歌单"
-
-## 版本历史
-
-- V15.3.0：访客密码多用户支持，哈希存储，安全隔离
-- V15.2.0：访客密码命名，多密码支持
-- V15.1.0：访客开关全局生效
-- V15.0.0：初始版本
 
 ## 技术栈
 
