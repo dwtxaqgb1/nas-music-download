@@ -17,6 +17,7 @@ services:
       - ./music:/server/music
       - ./cache:/server/cache
       - ./web:/server/public
+      - ./web/server.js:/server/server/server/server.js
     networks:
       - nas-music-net
 
