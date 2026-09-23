@@ -1252,19 +1252,18 @@ function showCopyDialog(txt, count) {
 document.addEventListener('DOMContentLoaded', async () => {
   initThemePicker();
 
-  // 从服务器读取访客密码列表
+  // 从sidecar读取访客密码列表（无需认证）
   try {
-    const cfg = await api('/api/config');
-    // serverName格式：name1:hash1,name2:hash2 或 __guest_off__
-    if (cfg.serverName === '__guest_off__') {
+    const resp = await fetch('/api/guest-config');
+    const cfg = await resp.json();
+    const serverName = cfg.serverName || '';
+    if (serverName === '__guest_off__' || !serverName || serverName === 'lxserver') {
       guestPasswords = [];
-    } else if (cfg.serverName && cfg.serverName !== 'lxserver') {
-      guestPasswords = cfg.serverName.split(',').filter(Boolean).map(item => {
+    } else {
+      guestPasswords = serverName.split(',').filter(Boolean).map(item => {
         const [name, hash] = item.split(':');
         return { name: name || '未命名', hash: hash || '' };
       });
-    } else {
-      guestPasswords = [];
     }
   } catch (e) {
     guestPasswords = [];

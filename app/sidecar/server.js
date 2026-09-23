@@ -142,6 +142,21 @@ const server = http.createServer((req, res) => {
     return;
   }
 
+  // 公开接口：获取访客密码配置（无需认证）
+  if (req.method === 'GET' && req.url === '/api/guest-config') {
+    try {
+      const content = fs.readFileSync(CONFIG_PATH, 'utf8');
+      const match = content.match(/["']serverName["']\s*:\s*"([^"]*)"/);
+      const serverName = match ? match[1] : '';
+      res.writeHead(200, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify({ serverName: serverName }));
+    } catch (e) {
+      res.writeHead(200, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify({ serverName: '__guest_off__' }));
+    }
+    return;
+  }
+
   res.writeHead(404);
   res.end('Not Found');
 });
