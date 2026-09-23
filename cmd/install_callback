@@ -1,0 +1,44 @@
+#!/bin/bash
+# 安装后回调
+CONFIG_FILE="${TRIM_PKGVAR}/data/config.js"
+COMPOSE_FILE="${TRIM_APPDEST}/docker-compose.yml"
+NGINX_CONF="${TRIM_APPDEST}/nginx/nginx.conf"
+
+# 修改下载目录volume映射（cache指向用户目录）
+if [ -n "$wizard_musicdir" ]; then
+  mkdir -p "$wizard_musicdir"
+  sed -i "s|\\\${TRIM_PKGVAR}/cache:/server/cache|${wizard_musicdir}:/server/cache|" "$COMPOSE_FILE"
+fi
+
+# 修改密码环境变量
+if [ -n "$wizard_password" ]; then
+  sed -i "s|FRONTEND_PASSWORD=.*|FRONTEND_PASSWORD=${wizard_password}|" "$COMPOSE_FILE"
+  sed -i "s|\"123456\";|\"${wizard_password}\";|" "$NGINX_CONF"
+fi
+
+# 修改端口
+if [ -n "$wizard_port" ]; then
+  sed -i "s|\"5200:80\"|\"${wizard_port}:80\"|" "$COMPOSE_FILE"
+  # 同时修改飞牛应用ui配置里的端口
+  sed -i "s|\"port\": \"5200\"|\"port\": \"${wizard_port}\"|" "${TRIM_APPDEST}/ui/config"
+  # 同时修改manifest里的service_port（manifest在应用根目录）
+  if [ -f manifest ]; then
+    sed -i "s|service_port.*|service_port = ${wizard_port}|" manifest
+  fi
+fi
+
+# 等待配置文件生成
+for i in $(seq 1 30); do
+  if [ -f "$CONFIG_FILE" ]; then break; fi
+  sleep 1
+done
+
+if [ -f "$CONFIG_FILE" ]; then
+  sed -i 's|"admin.path": "[^"]*"|"admin.path": ""|g' "$CONFIG_FILE"
+  sed -i 's|"user.enablePublicRestriction": true|"user.enablePublicRestriction": false|g' "$CONFIG_FILE"
+  sed -i 's|"user.enablePublicNonAdminServerCache": false|"user.enablePublicNonAdminServerCache": true|g' "$CONFIG_FILE"
+  sed -i 's|"user.enablePublicFavorites": false|"user.enablePublicFavorites": true|g' "$CONFIG_FILE"
+  sed -i 's|"user.enablePublicNonAdminAccess": false|"user.enablePublicNonAdminAccess": true|g'
+fi
+
+exit 0

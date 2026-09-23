@@ -1,0 +1,37 @@
+services:
+  lxserver:
+    image: xcq0607/lxserver@sha256:e26aac13d47fbab4783ace451dcfde8de6d4776e7d88ca8892a31a4945f3df1d
+    container_name: nas-music-download
+    restart: unless-stopped
+    expose:
+      - "9527"
+    environment:
+      - NODE_ENV=production
+      - FRONTEND_PASSWORD=123456
+      - PORT=9527
+      - BIND_IP=0.0.0.0
+      - DATA_PATH=/server/data
+      - LOG_PATH=/server/data/logs
+    volumes:
+      - ${TRIM_PKGVAR}/data:/server/data
+      - ${TRIM_PKGVAR}/music:/server/music
+      - ${TRIM_PKGVAR}/cache:/server/cache
+      - ${TRIM_APPDEST}/web:/server/public
+    networks:
+      - nas-music-net
+
+  nginx:
+    image: nginx:alpine
+    container_name: nas-music-download-nginx
+    restart: unless-stopped
+    ports:
+      - "5200:80"
+    volumes:
+      - ${TRIM_APPDEST}/nginx/nginx.conf:/etc/nginx/conf.d/default.conf:ro
+    depends_on:
+      - lxserver
+    networks:
+      - nas-music-net
+
+networks:
+  nas-music-net:

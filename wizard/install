@@ -1,0 +1,67 @@
+[
+  {
+    "stepTitle": "欢迎安装 NAS歌曲下载",
+    "items": [
+      {
+        "type": "tips",
+        "helpText": "基于 lxserver 的音乐搜索、播放与批量下载工具"
+      },
+      {
+        "type": "tips",
+        "helpText": "首次使用请设置管理密码和下载目录"
+      }
+    ]
+  },
+  {
+    "stepTitle": "账号设置",
+    "items": [
+      {
+        "type": "text",
+        "field": "wizard_password",
+        "label": "管理密码",
+        "helpText": "至少3位，用于登录管理后台",
+        "rules": [
+          { "required": true, "message": "请输入密码" },
+          { "min": 3, "message": "密码至少3位" }
+        ]
+      }
+    ]
+  },
+  {
+    "stepTitle": "下载目录",
+    "items": [
+      {
+        "type": "tips",
+        "helpText": "歌曲将下载到此NAS目录"
+      },
+      {
+        "type": "text",
+        "field": "wizard_musicdir",
+        "label": "下载目录",
+        "helpText": "如 /vol1/1000/音乐/",
+        "rules": [
+          { "required": true, "message": "请输入下载目录" }
+        ]
+      }
+    ]
+  },
+  {
+    "stepTitle": "端口设置",
+    "items": [
+      {
+        "type": "tips",
+        "helpText": "设置Web访问端口，默认5200"
+      },
+      {
+        "type": "text",
+        "field": "wizard_port",
+        "label": "Web端口",
+        "helpText": "如 5200",
+        "default": "5200",
+        "rules": [
+          { "required": true, "message": "请输入端口" }
+        ]
+      }
+    ]
+  }
+]

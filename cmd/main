@@ -1,0 +1,34 @@
+#!/bin/bash
+# NAS歌曲下载 - 启停脚本
+COMPOSE_DIR="${TRIM_APPDEST}"
+
+case $1 in
+  start)
+    cd "$COMPOSE_DIR" || exit 1
+    docker compose up -d 2>>"${TRIM_TEMP_LOGFILE:-/dev/null}"
+    exit $?
+    ;;
+  stop)
+    cd "$COMPOSE_DIR" || exit 1
+    docker compose down 2>>"${TRIM_TEMP_LOGFILE:-/dev/null}"
+    exit $?
+    ;;
+  status)
+    cd "$COMPOSE_DIR" || exit 3
+    # 检查所有服务容器是否都在运行
+    containers=$(docker compose ps -q 2>/dev/null)
+    if [ -z "$containers" ]; then
+      exit 3
+    fi
+    for cid in $containers; do
+      running=$(docker inspect -f '{{.State.Running}}' "$cid" 2>/dev/null)
+      if [ "$running" != "true" ]; then
+        exit 3
+      fi
+    done
+    exit 0
+    ;;
+  *)
+    exit 1
+    ;;
+esac

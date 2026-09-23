@@ -1,0 +1,12 @@
+{
+  "data-share": {
+    "shares": [
+      {
+        "name": "music",
+        "permission": {
+          "rw": ["root"]
+        }
+      }
+    ]
+  }
+}
