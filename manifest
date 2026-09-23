@@ -1,5 +1,5 @@
 appname               = com.nasmusic.download
-version               = 16.0.0
+version               = 16.1.0
 display_name          = NAS歌曲下载
 desc                  = 基于lxserver的NAS歌曲搜索、播放与批量下载工具
 platform              = x86
