@@ -1,12 +1,67 @@
 const http = require('http');
 const fs = require('fs');
-const path = require('path');
 
 const CONFIG_PATH = '/data/config.js';
+const COMPOSE_PATH = '/data/docker-compose.yml';
 const PORT = 3001;
+const DOCKER_SOCK = '/var/run/docker.sock';
+const LX_CONTAINER = 'nas-music-download';
+
+function dockerRequest(method, path, body) {
+  return new Promise((resolve, reject) => {
+    const opts = {
+      socketPath: DOCKER_SOCK,
+      path: path,
+      method: method,
+      headers: body ? { 'Content-Type': 'application/json' } : {}
+    };
+    const req = http.request(opts, (res) => {
+      let data = '';
+      res.on('data', c => data += c);
+      res.on('end', () => resolve({ status: res.statusCode, body: data }));
+    });
+    req.on('error', reject);
+    if (body) req.write(JSON.stringify(body));
+    req.end();
+  });
+}
+
+async function recreateContainer(newPassword) {
+  // 1. 获取当前容器配置
+  const infoRes = await dockerRequest('GET', `/containers/${LX_CONTAINER}/json`);
+  const info = JSON.parse(infoRes.body);
+
+  // 2. 修改环境变量中的 FRONTEND_PASSWORD
+  const env = info.Config.Env.map(e => {
+    if (e.startsWith('FRONTEND_PASSWORD=')) return `FRONTEND_PASSWORD=${newPassword}`;
+    return e;
+  });
+
+  // 3. 停止并删除旧容器
+  await dockerRequest('POST', `/containers/${LX_CONTAINER}/stop?t=5`);
+  await dockerRequest('DELETE', `/containers/${LX_CONTAINER}`);
+
+  // 4. 用新配置创建容器
+  const createBody = {
+    Image: info.Config.Image,
+    Env: env,
+    ExposedPorts: info.Config.ExposedPorts,
+    NetworkingConfig: { EndpointsConfig: info.NetworkSettings.Networks },
+    HostConfig: {
+      Binds: info.HostConfig.Binds,
+      RestartPolicy: info.HostConfig.RestartPolicy,
+      PortBindings: {}
+    }
+  };
+
+  const createRes = await dockerRequest('POST', '/containers/create?name=' + LX_CONTAINER, createBody);
+  if (createRes.status >= 300) throw new Error('创建容器失败: ' + createRes.body);
+
+  // 5. 启动
+  await dockerRequest('POST', `/containers/${LX_CONTAINER}/start`);
+}
 
 const server = http.createServer((req, res) => {
-  // CORS
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type, x-frontend-auth');
@@ -18,22 +73,18 @@ const server = http.createServer((req, res) => {
   }
 
   if (req.method === 'POST' && req.url === '/api/admin/password') {
-    // 验证管理员密码
     const auth = req.headers['x-frontend-auth'];
-    let config = {};
+    let currentPassword = '';
     try {
       const content = fs.readFileSync(CONFIG_PATH, 'utf8');
-      const match = content.match(/module\.exports\s*=\s*([\s\S]*);?\s*$/);
-      if (match) {
-        config = eval('(' + match[1] + ')');
-      }
+      const match = content.match(/["']frontend\.password["']\s*:\s*"([^"]*)"/);
+      if (match) currentPassword = match[1];
     } catch (e) {
       res.writeHead(500, { 'Content-Type': 'application/json' });
       res.end(JSON.stringify({ error: '读取配置失败: ' + e.message }));
       return;
     }
 
-    const currentPassword = config['frontend.password'];
     if (auth !== currentPassword) {
       res.writeHead(401, { 'Content-Type': 'application/json' });
       res.end(JSON.stringify({ error: '管理员密码不正确' }));
@@ -42,7 +93,7 @@ const server = http.createServer((req, res) => {
 
     let body = '';
     req.on('data', chunk => body += chunk);
-    req.on('end', () => {
+    req.on('end', async () => {
       try {
         const data = JSON.parse(body);
         if (!data.newPassword || data.newPassword.length < 3) {
@@ -51,14 +102,35 @@ const server = http.createServer((req, res) => {
           return;
         }
 
-        // 读取原始配置内容，替换密码
-        let content = fs.readFileSync(CONFIG_PATH, 'utf8');
-        // 替换 frontend.password
-        content = content.replace(
-          /('frontend\.password'\s*:\s*)"[^"]*"/,
+        // 1. 修改 config.js
+        let configContent = fs.readFileSync(CONFIG_PATH, 'utf8');
+        configContent = configContent.replace(
+          /(["']frontend\.password["']\s*:\s*)"[^"]*"/,
           `$1"${data.newPassword}"`
         );
-        fs.writeFileSync(CONFIG_PATH, content, 'utf8');
+        fs.writeFileSync(CONFIG_PATH, configContent, 'utf8');
+
+        // 2. 修改 docker-compose.yml 里的 FRONTEND_PASSWORD
+        try {
+          let composeContent = fs.readFileSync(COMPOSE_PATH, 'utf8');
+          composeContent = composeContent.replace(
+            /FRONTEND_PASSWORD=.*/,
+            `FRONTEND_PASSWORD=${data.newPassword}`
+          );
+          fs.writeFileSync(COMPOSE_PATH, composeContent, 'utf8');
+        } catch (e) {
+          console.error('修改compose失败:', e.message);
+        }
+
+        // 3. 重新创建 lxserver 容器（用新密码环境变量）
+        try {
+          await recreateContainer(data.newPassword);
+        } catch (e) {
+          console.error('重建容器失败:', e.message);
+          res.writeHead(200, { 'Content-Type': 'application/json' });
+          res.end(JSON.stringify({ success: true, warning: '密码已保存，但容器重启失败，请手动重启' }));
+          return;
+        }
 
         res.writeHead(200, { 'Content-Type': 'application/json' });
         res.end(JSON.stringify({ success: true }));
