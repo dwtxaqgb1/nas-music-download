@@ -5,8 +5,6 @@
 const API = '';
 
 let authPassword = localStorage.getItem('nas_music_pwd') || '';
-let isGuest = localStorage.getItem('nas_music_guest') === '1';
-let guestPasswords = []; // [{name, hash}] 访客密码哈希列表
 
 // 简单哈希（FNV-1a），兼容HTTP
 async function sha256(text) {
@@ -1142,28 +1140,6 @@ function startAutoDetect() {
   })();
 }
 
-function applyGuestMode() {
-  // 隐藏歌单、下载tab
-  document.querySelectorAll('[data-tab="playlist"]').forEach(el => el.style.display = 'none');
-  document.querySelectorAll('[data-tab="download"]').forEach(el => el.style.display = 'none');
-  // 隐藏下载到NAS、保存到歌单、设置、主题等按钮
-  document.querySelectorAll('.guest-hide').forEach(el => el.style.display = 'none');
-  // 顶部显示退出按钮
-  let exitBtn = $('guestExitBtn');
-  if (!exitBtn) {
-    exitBtn = document.createElement('button');
-    exitBtn.id = 'guestExitBtn';
-    exitBtn.className = 'guest-exit-btn';
-    exitBtn.textContent = '退出访客';
-    exitBtn.onclick = () => {
-      isGuest = false;
-      localStorage.removeItem('nas_music_guest');
-      location.reload();
-    };
-    document.querySelector('.topbar-right').appendChild(exitBtn);
-  }
-}
-
 /* ---------- 歌词 ---------- */
 let currentLyric = [];
 let lastLyricIdx = -1;
@@ -1252,36 +1228,12 @@ function showCopyDialog(txt, count) {
 document.addEventListener('DOMContentLoaded', async () => {
   initThemePicker();
 
-  // 从sidecar读取访客密码列表（无需认证）
-  try {
-    const resp = await fetch('/api/guest-config');
-    const cfg = await resp.json();
-    const serverName = cfg.serverName || '';
-    if (serverName === '__guest_off__' || !serverName || serverName === 'lxserver') {
-      guestPasswords = [];
-    } else {
-      guestPasswords = serverName.split(',').filter(Boolean).map(item => {
-        const [name, hash] = item.split(':');
-        return { name: name || '未命名', hash: hash || '' };
-      });
-    }
-  } catch (e) {
-    guestPasswords = [];
-  }
-
-  if (isGuest) {
-    showApp();
-    applyGuestMode();
-    loadHotSearch();
-    startAutoDetect();
-  } else if (authPassword) {
+  if (authPassword) {
     showApp(); onAppReady();
     startAutoDetect();
   } else {
     $('loginPage').classList.remove('hidden');
     $('app').classList.add('hidden');
-    // 有访客密码才显示访客按钮
-    $('guestBtn').style.display = guestPasswords.length ? '' : 'none';
   }
 
   // 音源选择
@@ -1333,23 +1285,6 @@ document.addEventListener('DOMContentLoaded', async () => {
   $('loginPassword').addEventListener('keydown', e => {
     if (e.key === 'Enter') doLogin();
   });
-  // 访客模式
-  $('guestBtn').onclick = async () => {
-    const pwd = prompt('请输入访客密码：');
-    if (pwd === null) return;
-    const hash = await sha256(pwd);
-    const found = guestPasswords.find(g => g.hash === hash);
-    if (found) {
-      isGuest = true;
-      localStorage.setItem('nas_music_guest', '1');
-      showApp();
-      applyGuestMode();
-      loadHotSearch();
-      startAutoDetect();
-    } else {
-      alert('密码错误');
-    }
-  };
 
   document.querySelectorAll('.tab-btn').forEach(b => {
     b.onclick = () => switchTab(b.dataset.tab);
@@ -1587,58 +1522,8 @@ document.addEventListener('DOMContentLoaded', async () => {
   $('settingsBtn').onclick = () => {
     $('settingsModal').classList.remove('hidden');
     loadSources();
-    renderGuestPwdList();
   };
 
-  function renderGuestPwdList() {
-    const el = $('guestPwdList');
-    if (!el) return;
-    if (!guestPasswords.length) {
-      el.innerHTML = '<div style="color:var(--text2);font-size:12px">暂无访客密码</div>';
-      return;
-    }
-    el.innerHTML = guestPasswords.map((g, i) =>
-      `<div style="display:flex;justify-content:space-between;align-items:center;padding:6px 0;border-bottom:1px solid var(--border)">
-        <span><b>${esc(g.name)}</b></span>
-        <button class="tool-btn red" style="padding:2px 8px;font-size:12px" data-del="${i}">删除</button>
-      </div>`
-    ).join('');
-    el.querySelectorAll('[data-del]').forEach(btn => {
-      btn.onclick = async () => {
-        const i = parseInt(btn.dataset.del);
-        guestPasswords.splice(i, 1);
-        await saveGuestPasswords();
-        renderGuestPwdList();
-      };
-    });
-  }
-
-  async function saveGuestPasswords() {
-    try {
-      const str = guestPasswords.length ? guestPasswords.map(g => `${g.name}:${g.hash}`).join(',') : '__guest_off__';
-      await api('/api/config', { method: 'POST', body: { serverName: str } });
-    } catch (e) {
-      alert('保存失败：' + e.message);
-    }
-  }
-
-  $('addGuestPwdBtn').onclick = async () => {
-    const name = $('newGuestName').value.trim() || '未命名';
-    const pwd = $('newGuestPwd').value.trim();
-    if (!pwd) { alert('请输入密码'); return; }
-    try {
-      const hash = await sha256(pwd);
-      if (guestPasswords.some(g => g.hash === hash)) { alert('密码已存在'); return; }
-      guestPasswords.push({ name, hash });
-      await saveGuestPasswords();
-      $('newGuestName').value = '';
-      $('newGuestPwd').value = '';
-      renderGuestPwdList();
-      alert('已添加：' + name + '（访客立即可用）');
-    } catch (e) {
-      alert('添加失败：' + e.message);
-    }
-  };
   $('closeSettings').onclick = () => $('settingsModal').classList.add('hidden');
   $('uploadSourceZone').onclick = () => $('sourceFileInput').click();
   $('sourceFileInput').onchange = (e) => {

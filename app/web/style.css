@@ -198,25 +198,6 @@ body {
   cursor: pointer;
 }
 .topbar-right { display: flex; align-items: center; gap: 16px; }
-
-.guest-btn {
-  margin-top: 10px;
-  background: transparent;
-  border: 1px solid var(--border);
-  color: var(--text2);
-  padding: 8px 16px;
-  border-radius: 8px;
-  cursor: pointer;
-  font-size: 14px;
-}
-.guest-btn:hover { background: var(--bg3); }
-.guest-exit-btn {
-  background: #ff4d4f;
-  color: #fff;
-  border: none;
-  padding: 6px 12px;
-  border-radius: 6px;
-  cursor: pointer;
   font-size: 13px;
 }
 
@@ -1994,11 +1975,4 @@ body {
     scrollbar-width: thin;
     scrollbar-color: var(--border) transparent;
   }
-}
-/* 访客密码管理 */
-#guestPwdList { max-height:200px; overflow-y:auto; }
-#newGuestName, #newGuestPwd { min-width:0; }
-@media (max-width: 640px) {
-  #guestPwdList { font-size:13px; }
-  #guestPwdList > div { flex-wrap:wrap; gap:4px; }
 }

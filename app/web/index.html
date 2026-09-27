@@ -23,7 +23,6 @@
     <p class="login-subtitle">请输入管理员密码</p>
     <input type="password" id="loginPassword" placeholder="密码" autocomplete="off">
     <button id="loginBtn">登 录</button>
-    <button id="guestBtn" class="guest-btn" style="display:none">访客听歌</button>
     <p id="loginError" class="login-error"></p>
   </div>
 </div>
@@ -41,7 +40,7 @@
       </select>
     </div>
     <div class="topbar-right">
-      <div class="theme-picker guest-hide" id="themePicker">
+      <div class="theme-picker" id="themePicker">
         <button class="icon-btn theme-btn" id="themeBtn" title="切换主题" aria-label="切换主题">
           <span class="theme-dot"></span>
         </button>
@@ -69,7 +68,7 @@
           </button>
         </div>
       </div>
-      <button class="icon-btn guest-hide" id="settingsBtn" title="设置" aria-label="设置">⚙️</button>
+      <button class="icon-btn" id="settingsBtn" title="设置" aria-label="设置">⚙️</button>
     </div>
   </header>
 
@@ -87,8 +86,8 @@
     <button class="tool-btn" id="rankPlayAll">全部播放</button>
     <div class="toolbar-row2">
       <button class="tool-btn" id="rankPlaySelected">选中播放</button>
-      <button class="tool-btn guest-hide" id="rankDownloadNAS">下载到NAS</button>
-      <button class="tool-btn guest-hide" id="rankSavePlaylist">保存到歌单</button>
+      <button class="tool-btn" id="rankDownloadNAS">下载到NAS</button>
+      <button class="tool-btn" id="rankSavePlaylist">保存到歌单</button>
       <button class="tool-btn" id="rankCopyLinks">获取链接</button>
     </div>
   </div>
@@ -259,17 +258,6 @@
         </div>
         <div class="import-row" style="margin-top:10px">
           <button class="tool-btn red" id="logoutBtn">退出登录</button>
-        </div>
-      </div>
-
-      <div class="settings-section">
-        <h3 class="card-title">👥 访客密码管理</h3>
-        <p style="font-size:12px;color:var(--text2);margin-bottom:8px">访客听歌需要输入密码，可添加多个密码</p>
-        <div id="guestPwdList"></div>
-        <div class="import-row" style="margin-top:8px;gap:6px">
-          <input type="text" id="newGuestName" placeholder="名称（如：朋友）" style="flex:1">
-          <input type="text" id="newGuestPwd" placeholder="访客密码" style="flex:1">
-          <button class="tool-btn blue" id="addGuestPwdBtn">添加</button>
         </div>
       </div>
 
