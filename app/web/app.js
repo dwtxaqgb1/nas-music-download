@@ -84,7 +84,7 @@ async function api(path, opts = {}) {
   if (!headers['x-frontend-auth'] && authPassword) {
     headers['x-frontend-auth'] = authPassword;
   }
-  headers['x-user-name'] = opts.userName || 'open';
+  if (opts.userName) headers['x-user-name'] = opts.userName;
 
   const ctrl = new AbortController();
   const timer = setTimeout(() => ctrl.abort(), opts.timeout || 15000);
