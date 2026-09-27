@@ -146,6 +146,62 @@ const server = http.createServer((req, res) => {
   res.end('Not Found');
 });
 
+// 启动时自动配置公开访问权限
+function initPublicAccess() {
+  try {
+    if (!fs.existsSync(CONFIG_PATH)) {
+      console.log('config.js不存在，等待lxserver初始化...');
+      setTimeout(initPublicAccess, 2000);
+      return;
+    }
+    const content = fs.readFileSync(CONFIG_PATH, 'utf8');
+    let config;
+    try {
+      config = JSON.parse(content.replace('module.exports = ', ''));
+    } catch (e) {
+      console.log('config.js还未初始化完成，重试...');
+      setTimeout(initPublicAccess, 2000);
+      return;
+    }
+    // 自动开启所有公开访问权限
+    let modified = false;
+    if (config['user.enablePublicRestriction'] !== false) {
+      config['user.enablePublicRestriction'] = false;
+      modified = true;
+    }
+    if (config['user.enablePublicNonAdminAccess'] !== true) {
+      config['user.enablePublicNonAdminAccess'] = true;
+      modified = true;
+    }
+    if (config['user.enablePublicNonAdminLocalMusic'] !== true) {
+      config['user.enablePublicNonAdminLocalMusic'] = true;
+      modified = true;
+    }
+    if (config['user.enablePublicNonAdminBrowserDownload'] !== true) {
+      config['user.enablePublicNonAdminBrowserDownload'] = true;
+      modified = true;
+    }
+    if (config['user.enablePublicNonAdminServerCache'] !== true) {
+      config['user.enablePublicNonAdminServerCache'] = true;
+      modified = true;
+    }
+    if (config['user.enablePublicFavorites'] !== true) {
+      config['user.enablePublicFavorites'] = true;
+      modified = true;
+    }
+    if (modified) {
+      fs.writeFileSync(CONFIG_PATH, 'module.exports = ' + JSON.stringify(config, null, 2) + ';');
+      console.log('已自动配置公开访问权限');
+    } else {
+      console.log('公开访问权限已配置完成');
+    }
+  } catch (e) {
+    console.log('初始化公开配置失败，重试:', e.message);
+    setTimeout(initPublicAccess, 2000);
+  }
+}
+
 server.listen(PORT, '0.0.0.0', () => {
   console.log(`Password sidecar running on port ${PORT}`);
+  initPublicAccess();
 });
