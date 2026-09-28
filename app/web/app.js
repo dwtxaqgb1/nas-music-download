@@ -1605,4 +1605,145 @@ document.addEventListener('DOMContentLoaded', async () => {
       }
     }, { passive: true });
   }
+
+  // ---------- 音源仓库功能 ----------
+  let repoMirror = localStorage.getItem('nas_music_repo_mirror') || '';
+  let repoList = JSON.parse(localStorage.getItem('nas_music_repo_list') || '[]');
+  let currentRepoFiles = [];
+
+  // 初始化加速地址
+  $('repoMirrorUrl').value = repoMirror;
+
+  // 保存加速地址
+  $('saveMirrorBtn').onclick = () => {
+    repoMirror = $('repoMirrorUrl').value.trim();
+    localStorage.setItem('nas_music_repo_mirror', repoMirror);
+    alert('加速地址已保存');
+  };
+
+  // 渲染仓库列表
+  function renderRepoList() {
+    const el = $('repoList');
+    if (!repoList.length) {
+      el.innerHTML = '<div style="color:var(--text2);padding:12px">暂无仓库，请添加GitHub音源仓库地址</div>';
+      return;
+    }
+    el.innerHTML = repoList.map((repo, i) => `
+      <div style="display:flex;justify-content:space-between;align-items:center;padding:10px;border-bottom:1px solid var(--border)">
+        <div style="flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(repo)}</div>
+        <div style="display:flex;gap:6px;margin-left:10px">
+          <button class="tool-btn blue" data-repo-action="pull" data-idx="${i}">拉取</button>
+          <button class="tool-btn red" data-repo-action="del" data-idx="${i}">删除</button>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  renderRepoList();
+
+  // 添加仓库
+  $('addRepoBtn').onclick = () => {
+    const url = $('newRepoUrl').value.trim();
+    if (!url) return alert('请输入仓库地址');
+    if (repoList.includes(url)) return alert('仓库已存在');
+    repoList.push(url);
+    localStorage.setItem('nas_music_repo_list', JSON.stringify(repoList));
+    $('newRepoUrl').value = '';
+    renderRepoList();
+  };
+
+  // 仓库列表按钮事件
+  $('repoList').onclick = async (e) => {
+    const btn = e.target.closest('button');
+    if (!btn) return;
+    const idx = parseInt(btn.dataset.idx);
+    const repo = repoList[idx];
+
+    if (btn.dataset.repoAction === 'del') {
+      if (!confirm('确认删除此仓库？')) return;
+      repoList.splice(idx, 1);
+      localStorage.setItem('nas_music_repo_list', JSON.stringify(repoList));
+      renderRepoList();
+      $('repoFilesCard').style.display = 'none';
+      return;
+    }
+
+    if (btn.dataset.repoAction === 'pull') {
+      btn.textContent = '拉取中...';
+      btn.disabled = true;
+      try {
+        // 解析GitHub仓库地址
+        const match = repo.match(/github\.com\/([^\/]+)\/([^\/]+)/);
+        if (!match) throw new Error('无效的GitHub仓库地址');
+        const owner = match[1];
+        const repoName = match[2].replace(/\.git$/, '');
+        
+        // 调用GitHub API获取仓库根目录文件
+        const apiUrl = `https://api.github.com/repos/${owner}/${repoName}/contents/`;
+        const resp = await fetch(apiUrl);
+        if (!resp.ok) throw new Error('拉取失败: ' + resp.status);
+        const files = await resp.json();
+        
+        // 过滤出js和zip文件
+        currentRepoFiles = files.filter(f => 
+          f.name.endsWith('.js') || f.name.endsWith('.zip')
+        );
+
+        // 渲染文件列表
+        $('repoFilesCard').style.display = 'block';
+        $('repoFilesTitle').textContent = `仓库文件 - ${repoName}`;
+        $('repoFiles').innerHTML = currentRepoFiles.length ? currentRepoFiles.map((f, i) => `
+          <div style="display:flex;justify-content:space-between;align-items:center;padding:10px;border-bottom:1px solid var(--border)">
+            <div style="flex:1">${esc(f.name)}</div>
+            <button class="tool-btn blue" data-file-action="import" data-idx="${i}">导入</button>
+          </div>
+        `).join('') : '<div style="color:var(--text2);padding:12px">仓库中没有找到JS音源文件</div>';
+
+      } catch (err) {
+        alert('拉取失败: ' + err.message);
+      } finally {
+        btn.textContent = '拉取';
+        btn.disabled = false;
+      }
+    }
+  };
+
+  // 导入音源
+  $('repoFiles').onclick = async (e) => {
+    const btn = e.target.closest('button');
+    if (!btn || btn.dataset.fileAction !== 'import') return;
+    const idx = parseInt(btn.dataset.idx);
+    const file = currentRepoFiles[idx];
+    
+    btn.textContent = '导入中...';
+    btn.disabled = true;
+
+    try {
+      // 构建下载地址，加上加速前缀
+      let downloadUrl = file.download_url;
+      if (repoMirror && downloadUrl) {
+        downloadUrl = repoMirror + downloadUrl;
+      }
+
+      // 调用导入接口
+      await api('/api/custom-source/import', {
+        method: 'POST',
+        body: { url: downloadUrl, filename: file.name, username: 'open', allowUnsafeVM: true },
+      });
+
+      // 导入后自动启用
+      const sources = await fetchSources();
+      const newSrc = sources.find(s => s.id === file.name);
+      if (newSrc && !newSrc.enabled) {
+        await toggleSourceById(newSrc.id);
+      }
+
+      alert(`音源 ${file.name} 导入成功并已启用`);
+    } catch (err) {
+      alert('导入失败: ' + err.message);
+    } finally {
+      btn.textContent = '导入';
+      btn.disabled = false;
+    }
+  };
 });

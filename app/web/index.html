@@ -77,6 +77,7 @@
     <button class="tab-btn" data-tab="rank">排行榜</button>
     <button class="tab-btn" data-tab="playlist">我的歌单</button>
     <button class="tab-btn" data-tab="download">下载管理</button>
+    <button class="tab-btn" data-tab="repo">音源仓库</button>
   </nav>
 
   <div class="global-toolbar" id="globalToolbar">
@@ -178,6 +179,28 @@
           <button class="tool-btn blue" id="refreshHistoryBtn">刷新</button>
         </div>
         <div id="downloadHistory" class="song-list"></div>
+      </div>
+    </section>
+
+    <section id="tab-repo" class="tab-panel">
+      <div class="card">
+        <h3 class="card-title">下载加速地址</h3>
+        <div class="import-row">
+          <input type="text" id="repoMirrorUrl" placeholder="GitHub加速地址，如：https://ghproxy.com/" style="flex:1">
+          <button class="tool-btn blue" id="saveMirrorBtn">保存</button>
+        </div>
+      </div>
+      <div class="card">
+        <h3 class="card-title">音源仓库列表</h3>
+        <div class="import-row">
+          <input type="text" id="newRepoUrl" placeholder="GitHub仓库地址，如：https://github.com/guoyue2010/lxmusic-" style="flex:1">
+          <button class="tool-btn blue" id="addRepoBtn">添加</button>
+        </div>
+        <div id="repoList" style="margin-top:12px"></div>
+      </div>
+      <div class="card" id="repoFilesCard" style="display:none">
+        <h3 class="card-title" id="repoFilesTitle">仓库文件</h3>
+        <div id="repoFiles" style="margin-top:12px"></div>
       </div>
     </section>
   </main>
