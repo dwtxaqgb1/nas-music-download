@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NAS歌曲下载</title>
+<script>
+  (function () {
+    try {
+      var t = localStorage.getItem('nas_music_theme') || 'classic';
+      document.documentElement.setAttribute('data-theme', t);
+    } catch (e) {}
+  })();
+</script>
+<link rel="stylesheet" href="style.css?v=40">
+</head>
+<body>
+
+<div id="loginPage" class="login-page">
+  <div class="login-box">
+    <div class="login-logo">🎵</div>
+    <h1>NAS歌曲下载</h1>
+    <p class="login-subtitle">请输入账号和密码</p>
+    <input type="text" id="loginUsername" placeholder="用户名 (管理员默认 admin)" autocomplete="off" style="margin-bottom: 10px;">
+    <input type="password" id="loginPassword" placeholder="密码" autocomplete="off">
+    <button id="loginBtn">登 录</button>
+    <p id="loginError" class="login-error"></p>
+  </div>
+</div>
+
+<div id="app" class="app hidden">
+  <header class="topbar">
+    <div class="topbar-left">
+      <span class="app-logo">NAS MUSIC</span>
+    </div>
+    <div class="topbar-right">
+      <div class="theme-picker" id="themePicker">
+        <button class="icon-btn theme-btn" id="themeBtn" title="切换主题" aria-label="切换主题" style="background:transparent; border:none; box-shadow:none; padding: 0 8px; width: auto; display: flex; align-items: center; justify-content: center;">
+          <svg id="themeIcon" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+          </svg>
+        </button>
+        
+      </div>
+      <button class="icon-btn theme-btn" id="settingsBtn" title="设置" aria-label="设置" style="background:transparent; border:none; box-shadow:none; color:var(--text);">
+            <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+          </button>
+    </div>
+  </header>
+
+  <nav class="tabbar">
+    <button class="tab-btn active" data-tab="search">搜索</button>
+    <button class="tab-btn" data-tab="rank">排行榜</button>
+    <button class="tab-btn" data-tab="playlist">我的歌单</button>
+    <button class="tab-btn" data-tab="download">下载管理</button>
+  </nav>
+
+  <div class="global-toolbar" id="globalToolbar">
+    <button class="tool-btn" id="rankSelectAll">全选</button>
+    <button class="tool-btn" id="rankInvert">反选</button>
+    <button class="tool-btn" id="rankClearSel">取消选择</button>
+    <button class="tool-btn" id="rankPlayAll">全部播放</button>
+    <div class="toolbar-row2">
+      <button class="tool-btn" id="rankPlaySelected">选中播放</button>
+      <button class="tool-btn" id="rankDownloadNAS">下载到NAS</button>
+      <button class="tool-btn" id="rankSavePlaylist">保存到歌单</button>
+      <button class="tool-btn" id="rankCopyLinks">本地下载</button>
+    </div>
+  </div>
+
+  <main class="content">
+    <section id="tab-search" class="tab-panel active">
+      <div class="search-box">
+        <input type="text" id="searchInput" placeholder="搜索歌曲、歌手..." autocomplete="off">
+        <button id="searchBtn">搜索</button>
+      </div>
+      <div id="hotSearch" class="hot-search"></div>
+      <div id="searchResults" class="song-list"></div>
+    </section>
+
+    <section id="tab-rank" class="tab-panel">
+      <div class="rank-platform-bar">
+        <button class="platform-btn active" data-source="kw">酷我</button>
+        <button class="platform-btn" data-source="wy">网易</button>
+        <button class="platform-btn" data-source="tx">QQ</button>
+        <button class="platform-btn" data-source="kg">酷狗</button>
+        <button class="platform-btn" data-source="mg">咪咕</button>
+      </div>
+      <div class="cat-overlay" id="catOverlay"></div>
+      <div id="currentBoardDisplay" style="margin: 15px 16px 5px 16px; font-size: 18px; font-weight: 900; font-style: italic; color: var(--text); display: flex; align-items: baseline; gap: 8px;">
+        <span>榜单加载中...</span>
+      </div>
+      <div class="rank-body">
+        <aside class="rank-sidebar" id="rankSidebar">
+          <div class="rank-cats" id="rankCats"></div>
+        </aside>
+        <div class="rank-main">
+          <div class="rank-header" id="rankHeader">
+            <span class="rank-header-title" id="rankHeaderTitle">请选择榜单</span>
+            <span class="rank-header-arrow" aria-hidden="true">▾</span>
+          </div>
+          <div id="rankList" class="song-list"></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="tab-playlist" class="tab-panel">
+      <div id="playlistView">
+        <div class="playlist-actions">
+          <button class="playlist-action-btn" id="pastePlaylistBtn">
+            <span class="action-icon">📋</span>
+            <span class="action-label">粘贴歌单</span>
+          </button>
+          <button class="playlist-action-btn" id="uploadPlaylistBtn">
+            <span class="action-icon">📁</span>
+            <span class="action-label">上传歌单</span>
+          </button>
+          <input type="file" id="playlistFileInput" accept=".json" hidden>
+        </div>
+        <div id="playlistList" class="playlist-grid"></div>
+      </div>
+
+      <div class="modal hidden" id="pastePlaylistModal">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h2>粘贴歌单</h2>
+            <button class="close-btn" id="closePasteModal">✕</button>
+          </div>
+          <div class="modal-body">
+            <input type="text" id="pastePlaylistName" class="form-input" placeholder="歌单名称">
+            <textarea id="pastePlaylistText" class="form-textarea" placeholder="粘贴歌单JSON或逐行输入（歌名-歌手）"></textarea>
+            <button class="tool-btn blue" id="confirmPastePlaylist" style="width:100%;margin-top:10px">创建歌单</button>
+          </div>
+        </div>
+      </div>
+
+      <div id="playlistDetailView" class="hidden">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-top:16px; margin-bottom:16px;">
+            <h2 class="panel-title" id="detailPlaylistName" style="margin-bottom:0; font-weight:900; font-style:italic; font-size:22px;"></h2>
+            <button class="back-btn" id="backToPlaylists" style="margin-bottom:0; font-size:13px; color:#ffffff; padding:6px 12px; border-radius:8px; background:rgba(255,255,255,0.1); border:1px solid rgba(255,255,255,0.15);">返回歌单列表</button>
+        </div>
+        <div id="detailSongList" class="song-list"></div>
+      </div>
+    </section>
+
+    <section id="tab-download" class="tab-panel">
+      <div class="card">
+        <h3 class="card-title">下载任务</h3>
+        <div class="toolbar">
+          <button class="tool-btn red" id="downloadPauseAll">暂停</button>
+          <button class="tool-btn red" id="downloadCancelAll">取消任务</button>
+        </div>
+        <div id="downloadTasks">暂无下载任务</div>
+      </div>
+      <div class="card">
+        <h3 class="card-title">下载历史</h3>
+        <div class="toolbar">
+          <button class="tool-btn red" id="clearHistoryBtn">清空历史</button>
+          <button class="tool-btn blue" id="refreshHistoryBtn">刷新</button>
+        </div>
+        <div id="downloadHistory" class="song-list"></div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="player-bar" id="playerBar" onclick="if(!event.target.closest('button')) { document.getElementById('playerFullscreen').classList.remove('hidden'); }">
+    <div class="player-cover" id="playerCover">🎵</div>
+    <div class="player-content">
+      <div class="player-text">
+        <div class="player-title" id="playerTitle">未播放</div>
+        <div class="player-singer" id="playerSinger"></div>
+      </div>
+      <div class="player-progress">
+        <span id="playerTime">0:00 / 0:00</span>
+        <div class="progress-bar" id="progressBar">
+          <div class="progress-fill" id="progressFill"></div>
+        </div>
+      </div>
+    </div>
+    <div class="player-controls">
+      <button class="pctl-btn" id="btnPrev" title="上一首" aria-label="上一首">⏮</button>
+      <button class="pctl-btn play" id="btnPlay" title="播放/暂停" aria-label="播放/暂停">▶</button>
+      <button class="pctl-btn" id="btnNext" title="下一首" aria-label="下一首">⏭</button>
+    </div>
+    <audio id="audioEl" preload="auto"></audio>
+  </footer>
+
+  <div class="player-fullscreen hidden" id="playerFullscreen">
+    <div class="fs-bg" id="fsBg"></div>
+    <div class="fs-content">
+      <button class="fs-close" id="fsClose" aria-label="关闭">✕</button>
+      <div class="fs-cover-wrap">
+        <div class="fs-cover" id="fsCover">🎵</div>
+        <button class="fs-play-overlay" id="fsPlayOverlay" aria-label="播放/暂停">▶</button>
+      </div>
+      <div class="fs-title" id="fsTitle">未播放</div>
+      <div class="fs-singer" id="fsSinger"></div>
+      <div class="fs-lyric" id="fsLyric">加载歌词中...</div>
+      <div class="fs-progress">
+        <span id="fsTime">0:00 / 0:00</span>
+        <div class="progress-bar" id="fsProgressBar">
+          <div class="progress-fill" id="fsProgressFill"></div>
+        </div>
+      </div>
+      <div class="fs-controls">
+        <button class="fs-btn" id="fsPrev">⏮</button>
+        <button class="fs-btn big" id="fsPlay">▶</button>
+        <button class="fs-btn" id="fsNext">⏭</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="settingsModal" class="modal hidden">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h2>设置</h2>
+      <button class="close-btn" id="closeSettings">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="settings-section">
+        <h3 class="card-title">🎵 音源管理</h3>
+        <div class="import-row" style="margin-bottom:8px">
+          <button class="tool-btn big-btn" id="uploadSourceBtn">上传音源</button>
+          <button class="tool-btn big-btn" id="ghRepoBtn">音源仓库</button>
+          <input type="file" id="sourceFileInput" accept=".js" hidden>
+        </div>
+        <div id="sourceList" class="source-list"></div>
+      </div>
+
+      <div id="ghModal" class="modal hidden" style="z-index:100">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h2>音源仓库</h2>
+            <button class="close-btn" id="closeGhModal">✕</button>
+          </div>
+          <div class="modal-body">
+            <div class="import-row">
+              <input type="text" id="ghMirrorInput" placeholder="加速地址 (可选)" style="flex:1">
+              <button class="tool-btn" id="saveMirrorBtn">保存</button>
+            </div>
+            <div class="import-row" style="margin-top:8px">
+              <input type="text" id="ghRepoInput" placeholder="仓库地址 (如 owner/repo)" style="flex:1">
+              <button class="tool-btn" id="addRepoBtn">添加</button>
+            </div>
+            <div id="repoList" style="margin:8px 0"></div>
+            <p style="font-size:12px;color:#888;margin:8px 0">导入后请手动启用，并自测音源有效性</p>
+            <div id="ghSearchResults" class="source-list" style="margin-top:10px;max-height:400px;overflow-y:auto"></div>
+          </div>
+        </div>
+      </div>
+
+            <div class="settings-section" id="adminUserMgr" style="display:none;">
+        <h3 class="card-title">👥 用户管理 (仅管理员可见)</h3>
+        <div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px;">
+          <input type="text" id="newUserName" placeholder="新用户名" style="flex:1;min-width:120px;padding:8px;border-radius:6px;border:1px solid var(--border);background:var(--bg3);color:var(--text);">
+          <input type="password" id="newUserPwd" placeholder="密码" style="flex:1;min-width:120px;padding:8px;border-radius:6px;border:1px solid var(--border);background:var(--bg3);color:var(--text);">
+          <button class="tool-btn blue" id="addUserBtn" style="width:100%;border-radius:8px;padding:8px;">➕ 添加新用户</button>
+        </div>
+        <div style="font-size:13px;color:var(--text2);margin-bottom:8px;">现有用户列表：</div>
+        <div id="adminUserList" style="display:flex;flex-direction:column;gap:8px;"></div>
+      </div>
+      <div class="settings-section">
+        <h3 class="card-title">🔐 账号</h3>
+        <div style="display:flex;gap:12px;align-items:center">
+          <a href="javascript:void(0)" onclick="localStorage.clear();sessionStorage.clear();window.location.replace(window.location.origin + window.location.pathname + '?logout=' + Date.now());" class="tool-btn red" id="logoutBtn" style="display:inline-flex; align-items:center; justify-content:center; height:32px; text-decoration:none; cursor:pointer; user-select:none;">退出登录</a>
+        </div>
+      </div>
+
+      <div class="settings-section">
+        <h3 class="card-title">💡 关于</h3>
+        <p class="about-text">基于 lxserver 构建</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="linksModal" class="modal hidden" style="z-index:110">
+  <div class="modal-content" style="max-width:600px">
+    <div class="modal-header">
+      <h2 id="linksTitle">本地下载</h2>
+      <button class="close-btn" id="closeLinksModal">✕</button>
+    </div>
+    <div class="modal-body">
+      <div id="linksBody"><p style="color:#888">获取中，请稍等...</p></div>
+    </div>
+  </div>
+</div>
+
+<div id="qualityModal" class="quality-modal hidden">
+  <div class="quality-modal-content">
+    <div class="quality-modal-title">选择音质</div>
+    <div class="quality-modal-desc" id="qualityModalDesc"></div>
+    <div class="quality-options">
+      <button class="quality-option" data-quality="flac">无损 (flac)</button>
+      <button class="quality-option" data-quality="320k">高品 (320k)</button>
+      <button class="quality-option" data-quality="128k">标准 (128k)</button>
+    </div>
+    <button class="quality-cancel" id="qualityCancel">取消</button>
+  </div>
+</div>
+
+<script src="app.js?v=888"></script>
+  
+
+
+<!-- 物理写死的榜单弹窗 -->
+<div id="myGlobalRankModal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.6); backdrop-filter:blur(10px); z-index:999999; align-items:center; justify-content:center;">
+    <div id="myGlobalRankContent" style="background:var(--bg2); width:85vw; max-width:400px; max-height:70vh; border-radius:16px; border:1px solid var(--border); box-shadow:0 20px 50px rgba(0,0,0,0.5); display:flex; flex-direction:column; overflow:hidden;">
+        <!-- 内容由 JS 渲染 -->
+    </div>
+</div>
+
+
+<!-- 自定义确认弹窗 -->
+<div id="customConfirmModal" class="modal hidden" style="z-index: 10000; background: rgba(0,0,0,0.4); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);">
+    <div class="modal-content" style="max-width: 320px; padding: 25px; text-align: center; border-radius: 16px; background: var(--bg2); border: 1px solid var(--border);">
+        <h3 id="confirmTitle" style="margin-bottom: 10px; color: var(--text); font-size: 16px;">提示</h3>
+        <p id="confirmDesc" style="color: var(--text2); font-size: 14px; line-height: 1.5; margin-bottom: 20px;"></p>
+        <div style="display: flex; gap: 10px;">
+            <button id="confirmCancel" class="tool-btn" style="flex: 1; padding: 10px; border-radius: 8px; background: var(--bg3); color: var(--text); border: 1px solid var(--border);">取消</button>
+            <button id="confirmOk" class="tool-btn blue" style="flex: 1; padding: 10px; border-radius: 8px; background: var(--blue); color: #fff; border: none;">确定</button>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
