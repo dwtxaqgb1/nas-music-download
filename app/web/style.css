@@ -1,0 +1,4351 @@
+/* ============================================================
+ * NAS歌曲下载 - 样式表
+ * ============================================================ */
+
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* ============================================================
+ * 主题色板 —— 7 款：经典黑 + 彩虹 6 色（红橙黄绿蓝紫）
+ * ============================================================ */
+
+:root {
+  --bg: #0d1117;
+  --bg2: #161b22;
+  --bg3: #1c2128;
+  --border: #30363d;
+  --text: #e6edf3;
+  --text2: #8b949e;
+  --blue: #1f6feb;
+  --green: #238636;
+  --red: #da3633;
+  --yellow: #d29922;
+  --player-bar-h: 72px;
+}
+
+[data-theme="red"] {
+  --bg: #1a0a0a; --bg2: #261212; --bg3: #321818; --border: #4a2020;
+  --text: #ffe8e8; --text2: #cc8888;
+  --blue: #dc2626; --green: #22c55e; --red: #ef4444; --yellow: #f59e0b;
+}
+
+[data-theme="sunset"] {
+  --bg: #1a0f08; --bg2: #251510; --bg3: #301c14; --border: #4a2820;
+  --text: #fef0e6; --text2: #c99880;
+  --blue: #f97316; --green: #22c55e; --red: #ef4444; --yellow: #fbbf24;
+}
+
+[data-theme="yellow"] {
+  --bg: #1a1408; --bg2: #262010; --bg3: #322a16; --border: #4a401f;
+  --text: #fff8e0; --text2: #ccb880;
+  --blue: #eab308; --green: #22c55e; --red: #ef4444; --yellow: #eab308;
+}
+
+[data-theme="forest"] {
+  --bg: #0a1a15; --bg2: #0f2620; --bg3: #14322a; --border: #1f4a3e;
+  --text: #d9f5ed; --text2: #7eb3a3;
+  --blue: #10b981; --green: #10b981; --red: #ef4444; --yellow: #f59e0b;
+}
+
+[data-theme="deep"] {
+  --bg: #0a1929; --bg2: #0f2438; --bg3: #142d45; --border: #1e3a5f;
+  --text: #e0f0ff; --text2: #7ba3c9;
+  --blue: #3b82f6; --green: #22c55e; --red: #ef4444; --yellow: #eab308;
+}
+
+[data-theme="purple"] {
+  --bg: #0f0817; --bg2: #1a1024; --bg3: #261830; --border: #3d1f4a;
+  --text: #f0e8ff; --text2: #b088c9;
+  --blue: #a855f7; --green: #22c55e; --red: #ef4444; --yellow: #f59e0b;
+}
+
+@media (min-width: 769px) {
+  :root,
+  [data-theme="classic"] {
+    --bg: #0d1117; --bg2: #161b22; --bg3: #1c2128; --border: #30363d;
+    --text: #e6edf3; --text2: #8b949e;
+    --blue: #1f6feb; --green: #238636; --red: #da3633; --yellow: #d29922;
+    --app-bg-image: radial-gradient(ellipse at top, #1c2128 0%, #0d1117 60%);
+  }
+  [data-theme="red"] {
+    --bg: #fde8e8; --bg2: #ffffff; --bg3: #fff0f0; --border: #f5c8c8;
+    --text: #4a1010; --text2: #8b5252;
+    --blue: #dc2626; --green: #22c55e; --red: #dc2626; --yellow: #f59e0b;
+    --app-bg-image: linear-gradient(135deg, #fee2e2 0%, #fecdd3 50%, #ffe4e6 100%);
+  }
+  [data-theme="sunset"] {
+    --bg: #fdf4e8; --bg2: #ffffff; --bg3: #fff8ee; --border: #f5ddb8;
+    --text: #4a2410; --text2: #8b6a52;
+    --blue: #ea580c; --green: #22c55e; --red: #ef4444; --yellow: #f59e0b;
+    --app-bg-image: linear-gradient(135deg, #ffe8cc 0%, #ffd6ba 50%, #fff0d4 100%);
+  }
+  [data-theme="yellow"] {
+    --bg: #fdf8e8; --bg2: #ffffff; --bg3: #fefce8; --border: #f5e8b8;
+    --text: #4a3a10; --text2: #8b7a52;
+    --blue: #ca8a04; --green: #22c55e; --red: #ef4444; --yellow: #ca8a04;
+    --app-bg-image: linear-gradient(135deg, #fef3c7 0%, #fef9c3 50%, #fde68a 100%);
+  }
+  [data-theme="forest"] {
+    --bg: #e8f5ef; --bg2: #ffffff; --bg3: #f0faf5; --border: #c9e6d9;
+    --text: #0c2e1f; --text2: #567e6c;
+    --blue: #059669; --green: #059669; --red: #ef4444; --yellow: #f59e0b;
+    --app-bg-image: linear-gradient(135deg, #d1fae5 0%, #d4f1e4 50%, #e0f2f1 100%);
+  }
+  [data-theme="deep"] {
+    --bg: #e8f1fb; --bg2: #ffffff; --bg3: #f0f7ff; --border: #d1e3f7;
+    --text: #0c1e33; --text2: #5a7391;
+    --blue: #3b82f6; --green: #22c55e; --red: #ef4444; --yellow: #f59e0b;
+    --app-bg-image: linear-gradient(135deg, #dbeafe 0%, #e0f2fe 50%, #e0e7ff 100%);
+  }
+  [data-theme="purple"] {
+    --bg: #f2e8fb; --bg2: #ffffff; --bg3: #f8f0ff; --border: #e0c8f5;
+    --text: #2e104a; --text2: #7a528b;
+    --blue: #9333ea; --green: #22c55e; --red: #ef4444; --yellow: #f59e0b;
+    --app-bg-image: linear-gradient(135deg, #e9d5ff 0%, #f3e8ff 50%, #fae8ff 100%);
+  }
+}
+
+/* ---------- 基础 ---------- */
+body {
+  font-family: -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif;
+  background: var(--app-bg-image, var(--bg));
+  background-attachment: fixed;
+  color: var(--text);
+  min-height: 100vh;
+  transition: background .3s ease, color .3s ease;
+  overflow-x: hidden;
+}
+
+.hidden { display: none !important; }
+
+:focus-visible {
+  outline: 2px solid var(--blue);
+  outline-offset: 2px;
+}
+
+/* ---------- 登录页 ---------- */
+.login-page {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background: var(--app-bg-image, var(--bg));
+}
+.login-box {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 40px;
+  width: 360px;
+  text-align: center;
+}
+.login-logo { font-size: 48px; margin-bottom: 12px; }
+.login-box h1 { font-size: 20px; margin-bottom: 8px; }
+.login-subtitle { color: var(--text2); font-size: 14px; margin-bottom: 20px; }
+.login-box input {
+  width: 100%;
+  padding: 10px 14px;
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  color: var(--text);
+  font-size: 14px;
+  margin-bottom: 12px;
+}
+.login-box button {
+  width: 100%;
+  padding: 10px;
+  background: var(--blue);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-size: 15px;
+  cursor: pointer;
+}
+.login-box button:hover { opacity: .9; }
+.login-error { color: var(--red); font-size: 13px; margin-top: 8px; }
+
+/* ---------- 主布局 ---------- */
+.app { display: flex; flex-direction: column; min-height: 100vh; }
+
+.topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 24px;
+  height: 56px;
+  background: var(--bg2);
+  border-bottom: 1px solid var(--border);
+}
+.app-logo {
+  font-weight: 700;
+  font-size: 22px;
+  color: var(--blue);
+  white-space: nowrap;
+  letter-spacing: .5px;
+}
+.source-select {
+  margin-left: 12px;
+  padding: 8px 16px;
+  border-radius: 8px;
+  border: 1px solid var(--border, #ddd);
+  background: var(--bg, #fff);
+  color: var(--text, #333);
+  font-size: 14px;
+  cursor: pointer;
+}
+.topbar-right { display: flex; align-items: center; gap: 16px; }
+  font-size: 13px;
+}
+
+.icon-btn {
+  background: none;
+  border: none;
+  font-size: 18px;
+  cursor: pointer;
+  color: inherit;
+}
+
+/* ---------- 主题切换器 ---------- */
+.theme-picker { position: relative; }
+
+.theme-btn {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: transform .15s;
+}
+.theme-btn:hover { transform: scale(1.06); }
+.theme-btn:active { transform: scale(.95); }
+
+.theme-dot {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--blue) 0%, var(--green) 100%);
+  box-shadow: 0 0 0 2px var(--bg3);
+}
+
+.theme-panel {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 6px;
+  box-shadow: 0 12px 40px rgba(0,0,0,.25);
+  display: none;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 160px;
+  z-index: 600;
+  max-height: 70vh;
+  overflow-y: auto;
+}
+.theme-panel.open { display: flex; }
+
+.theme-option {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 12px;
+  background: transparent;
+  border: none;
+  border-radius: 8px;
+  color: var(--text);
+  font-size: 13px;
+  cursor: pointer;
+  text-align: left;
+  white-space: nowrap;
+  font-family: inherit;
+  transition: background .12s;
+}
+.theme-option:hover { background: var(--bg3); }
+.theme-option.active {
+  background: var(--bg3);
+  color: var(--blue);
+  font-weight: 600;
+}
+.theme-option.active::after {
+  content: '✓';
+  margin-left: auto;
+  font-size: 12px;
+}
+
+.theme-swatch {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  border: 1px solid rgba(0,0,0,.08);
+}
+.swatch-classic { background: linear-gradient(135deg, #58a6ff 0%, #10b981 100%); }
+.swatch-red     { background: linear-gradient(135deg, #f87171 0%, #dc2626 100%); }
+.swatch-sunset  { background: linear-gradient(135deg, #fbbf24 0%, #ea580c 100%); }
+.swatch-yellow  { background: linear-gradient(135deg, #facc15 0%, #ca8a04 100%); }
+.swatch-forest  { background: linear-gradient(135deg, #6ee7b7 0%, #059669 100%); }
+.swatch-deep    { background: linear-gradient(135deg, #93c5fd 0%, #3b82f6 100%); }
+.swatch-purple  { background: linear-gradient(135deg, #c084fc 0%, #9333ea 100%); }
+
+.tabbar {
+  display: flex;
+  gap: 12px;
+  padding: 12px 24px;
+  background: var(--bg2);
+  border-bottom: 1px solid var(--border);
+}
+.tab-btn {
+  padding: 9px 18px;
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  color: var(--text);
+  cursor: pointer;
+  font-size: 14px;
+  white-space: nowrap;
+}
+.tab-btn.active { background: var(--blue); border-color: var(--blue); color: #fff; }
+
+.content {
+  flex: 1;
+  padding: 12px 24px;
+  overflow-y: auto;
+  padding-bottom: 120px;
+}
+
+/* ---------- 全局工具栏 ---------- */
+.global-toolbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 200;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  align-items: stretch;
+  padding: 10px;
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  box-shadow: 0 12px 40px rgba(0,0,0,.16), 0 2px 8px rgba(0,0,0,.06);
+  transform: translateX(12px);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .18s ease, transform .22s cubic-bezier(.2,.8,.3,1.15);
+}
+.global-toolbar.show {
+  opacity: 1;
+  transform: translateX(0);
+  pointer-events: auto;
+}
+
+.toolbar-row2 {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.tab-panel { display: none; }
+.tab-panel.active { display: block; }
+
+/* ---------- 搜索 ---------- */
+.search-box {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 16px;
+  max-width: 800px;
+}
+.search-box select,
+.search-box input,
+.search-box button {
+  padding: 10px 14px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: var(--bg3);
+  color: var(--text);
+  font-size: 14px;
+}
+.search-box input { flex: 1; }
+.search-box button {
+  padding: 9px 18px;
+  background: var(--blue);
+  border-color: var(--blue);
+  color: #fff;
+  cursor: pointer;
+  border-radius: 8px;
+  border: 1px solid var(--blue);
+  font-size: 14px;
+  white-space: nowrap;
+}
+.hot-search {
+  margin-bottom: 16px;
+  font-size: 13px;
+  color: var(--text2);
+  line-height: 2;
+}
+.hot-search span { cursor: pointer; margin-right: 12px; }
+.hot-search span:hover { color: var(--blue); }
+
+/* ---------- 歌曲列表 ---------- */
+.song-list { display: flex; flex-direction: column; gap: 2px; }
+.song-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 12px;
+  border-radius: 6px;
+  transition: background .15s;
+}
+.song-item:hover { background: var(--bg3); }
+.song-item.playing { background: rgba(31,111,235,.15); }
+.song-item input[type=checkbox] { accent-color: var(--blue); flex-shrink: 0; }
+.song-num {
+  width: 32px;
+  text-align: right;
+  color: var(--text2);
+  font-size: 13px;
+  flex-shrink: 0;
+  font-variant-numeric: tabular-nums;
+}
+.song-info { flex: 1; min-width: 0; }
+.song-name {
+  font-size: 14px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.song-singer {
+  font-size: 12px;
+  color: var(--text2);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.song-quality {
+  font-size: 11px;
+  padding: 2px 6px;
+  border-radius: 4px;
+  background: var(--bg3);
+  color: var(--text2);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.song-play-btn {
+  background: none;
+  border: none;
+  color: var(--blue);
+  cursor: pointer;
+  font-size: 16px;
+  flex-shrink: 0;
+  padding: 4px 8px;
+  border-radius: 6px;
+  transition: all .15s;
+}
+.song-play-btn:hover {
+  background: color-mix(in srgb, var(--blue) 15%, transparent);
+}
+
+/* ---------- 排行榜 ---------- */
+#tab-rank.active { display: flex; flex-direction: column; }
+
+.rank-platform-bar {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 10px;
+  width: 100%;
+  margin-bottom: 20px;
+  align-items: stretch;
+}
+.platform-btn {
+  padding: 10px 12px;
+  min-height: 48px;
+  border-radius: 12px;
+  border: none;
+  cursor: pointer;
+  font-size: 13px;
+  color: #fff;
+  text-align: center;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 8px rgba(0,0,0,.3);
+}
+.platform-btn[data-source=kw] { background: #e8820e; }
+.platform-btn[data-source=wy] { background: #e60026; }
+.platform-btn[data-source=tx] { background: #1aad19; }
+.platform-btn[data-source=kg] { background: #ff6600; }
+.platform-btn[data-source=mg] { background: #0066cc; }
+.platform-btn.active { outline: 2px solid #fff; }
+
+.rank-loading {
+  text-align: center;
+  padding: 80px 20px;
+  color: var(--text2);
+  font-size: 14px;
+}
+
+.rank-body { display: flex; gap: 16px; align-items: flex-start; }
+.rank-sidebar {
+  width: 220px;
+  flex-shrink: 0;
+  position: sticky;
+  top: 8px;
+  align-self: flex-start;
+}
+.rank-sidebar-handle { display: none; }
+.rank-sidebar-title { display: none; }
+
+.rank-cats {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  max-height: calc(100vh - 220px);
+  overflow-y: auto;
+  padding-right: 6px;
+}
+.rank-cats::-webkit-scrollbar { width: 6px; }
+.rank-cats::-webkit-scrollbar-track { background: transparent; }
+.rank-cats::-webkit-scrollbar-thumb { background: transparent; border-radius: 3px; }
+.rank-cats:hover::-webkit-scrollbar-thumb { background: var(--border); }
+
+.rank-group {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  margin-bottom: 14px;
+}
+.rank-group:last-child { margin-bottom: 0; }
+
+.rank-group-title {
+  font-size: 11px;
+  color: var(--text2);
+  padding: 6px 12px 6px 16px;
+  letter-spacing: 1px;
+  font-weight: 600;
+  user-select: none;
+}
+
+.rank-cat {
+  position: relative;
+  padding: 9px 12px 9px 16px;
+  background: transparent;
+  border: none;
+  color: var(--text);
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 13px;
+  text-align: left;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  transition: background .15s, color .15s;
+}
+.rank-cat::before {
+  content: '';
+  position: absolute;
+  left: 4px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 3px;
+  height: 0;
+  background: var(--blue);
+  border-radius: 2px;
+  transition: height .2s ease;
+}
+.rank-cat:hover { background: var(--bg3); }
+.rank-cat.active {
+  background: color-mix(in srgb, var(--blue) 15%, transparent);
+  color: var(--blue);
+  font-weight: 500;
+}
+.rank-cat.active::before { height: 60%; }
+
+.rank-loading-cats {
+  color: var(--text2);
+  padding: 8px 16px;
+  font-size: 12px;
+}
+
+.rank-main { flex: 1; min-width: 0; }
+
+.rank-header {
+  position: sticky;
+  top: 0;
+  z-index: 5;
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  padding: 12px 16px;
+  margin-bottom: 12px;
+  background: color-mix(in srgb, var(--bg2) 92%, transparent);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-radius: 12px;
+  border: 1px solid var(--border);
+}
+.rank-header-title { font-size: 16px; font-weight: 600; color: var(--text); }
+.rank-header-count { font-size: 12px; color: var(--text2); }
+.rank-header-arrow { display: none; }
+
+.cat-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,.5);
+  z-index: 150;
+}
+.cat-overlay.show { display: block; }
+
+/* ---------- 通用工具 ---------- */
+.toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 12px;
+  align-items: center;
+}
+.tool-btn {
+  padding: 6px 14px;
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--text);
+  cursor: pointer;
+  font-size: 13px;
+  white-space: nowrap;
+}
+.tool-btn:hover { border-color: var(--text2); }
+.tool-btn.big-btn { padding: 10px 22px; font-size: 16px; border-radius: 8px; }
+.tool-btn.primary { background: var(--bg3); }
+.tool-btn.blue { background: var(--blue); border-color: var(--blue); color: #fff; }
+.tool-btn.green { background: var(--green); border-color: var(--green); color: #fff; }
+.tool-btn.yellow { background: var(--yellow); border-color: var(--yellow); color: #000; }
+.tool-btn.red { background: var(--red); border-color: var(--red); color: #fff; }
+.tool-btn:disabled { opacity: .4; cursor: not-allowed; }
+
+.toolbar select,
+.global-toolbar select {
+  padding: 6px 10px;
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--text);
+  font-size: 13px;
+}
+
+/* ---------- 卡片 ---------- */
+.card {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 20px;
+  margin-top: 20px;
+}
+.card-title { font-size: 15px; margin-bottom: 12px; }
+.panel-title { font-size: 18px; margin-bottom: 16px; }
+
+/* ---------- 歌单 ---------- */
+.playlist-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+.playlist-action-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 16px 20px;
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  color: var(--text);
+  cursor: pointer;
+  font-size: 14px;
+  transition: all .15s;
+}
+.playlist-action-btn:hover { border-color: var(--blue); background: var(--bg3); }
+.playlist-action-btn .action-icon { font-size: 20px; }
+.playlist-action-btn .action-label { font-weight: 500; }
+
+.playlist-grid { display: flex; flex-direction: column; gap: 12px; margin-bottom: 20px; }
+.playlist-card {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 16px 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  cursor: pointer;
+}
+.playlist-card:hover { border-color: var(--blue); }
+.playlist-icon { font-size: 28px; }
+.playlist-meta { flex: 1; }
+.playlist-name { font-size: 15px; }
+.playlist-count { font-size: 12px; color: var(--text2); }
+
+/* ---------- 表单 ---------- */
+.form-input,
+.form-textarea {
+  width: 100%;
+  padding: 10px 14px;
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  color: var(--text);
+  font-size: 14px;
+}
+.form-input { margin-bottom: 10px; }
+.form-textarea {
+  min-height: 200px;
+  font-size: 13px;
+  resize: vertical;
+  font-family: inherit;
+}
+
+.import-row { display: flex; gap: 8px; margin-bottom: 10px; }
+.import-row input {
+  flex: 1;
+  padding: 8px 12px;
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--text);
+  font-size: 13px;
+}
+.upload-zone {
+  border: 2px dashed var(--border);
+  border-radius: 8px;
+  padding: 24px;
+  text-align: center;
+  color: var(--text2);
+  cursor: pointer;
+  font-size: 14px;
+  margin-bottom: 10px;
+}
+.upload-zone:hover { border-color: var(--blue); color: var(--text); }
+
+.back-btn {
+  background: none;
+  border: none;
+  color: var(--blue);
+  cursor: pointer;
+  font-size: 14px;
+  margin-bottom: 12px;
+}
+
+/* ---------- 下载管理 ---------- */
+#downloadTasks { font-size: 14px; color: var(--text2); }
+.task-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--border);
+}
+.task-item:last-child { border-bottom: none; }
+.task-index {
+  width: 24px;
+  flex-shrink: 0;
+  color: var(--text2);
+  font-size: 12px;
+  padding-top: 2px;
+}
+.task-body { flex: 1; min-width: 0; }
+.task-name {
+  font-size: 14px;
+  color: var(--text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.task-meta { font-size: 12px; color: var(--text2); }
+.task-bar {
+  width: 100%;
+  height: 4px;
+  background: var(--bg3);
+  border-radius: 2px;
+  margin-top: 6px;
+}
+.task-bar-fill {
+  height: 100%;
+  width: 0;
+  background: var(--blue);
+  border-radius: 2px;
+  transition: width .3s;
+}
+.task-status {
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
+}
+.task-status-text { font-size: 12px; }
+.retry-btn {
+  padding: 3px 12px;
+  font-size: 12px;
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  color: var(--text);
+  border-radius: 12px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.retry-btn:hover {
+  background: var(--red);
+  border-color: var(--red);
+  color: #fff;
+}
+
+#downloadHistory .song-play-btn {
+  padding: 6px 10px;
+  font-size: 15px;
+}
+
+/* ============================================================
+ * 底部播放器
+ * ============================================================ */
+.player-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: var(--player-bar-h);
+  background: color-mix(in srgb, var(--bg2) 90%, transparent);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border-top: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 8px 16px;
+  z-index: 50;
+  cursor: pointer;
+}
+.player-bar audio { display: none; }
+
+.player-cover {
+  width: 48px;
+  height: 48px;
+  border-radius: 10px;
+  background: var(--bg3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  flex-shrink: 0;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0,0,0,.15);
+}
+.player-cover img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.player-content {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.player-text { min-width: 0; display: flex; align-items: baseline; gap: 8px; }
+.player-title {
+  font-size: 14px;
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 0;
+}
+.player-singer {
+  font-size: 11px;
+  color: var(--text2);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  flex-shrink: 0;
+}
+
+.player-progress {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+}
+#playerTime {
+  font-size: 11px;
+  color: var(--text2);
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+  flex-shrink: 0;
+}
+.progress-bar {
+  position: relative;
+  flex: 1;
+  height: 3px;
+  background: var(--bg3);
+  border-radius: 2px;
+  cursor: pointer;
+}
+.progress-bar::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: -12px;
+  bottom: -12px;
+}
+.progress-fill {
+  height: 100%;
+  width: 0;
+  background: var(--blue);
+  border-radius: 2px;
+  transition: width .1s;
+}
+
+.player-controls { display: flex; gap: 4px; flex-shrink: 0; align-items: center; }
+.pctl-btn {
+  background: none;
+  border: none;
+  color: var(--text);
+  font-size: 18px;
+  cursor: pointer;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all .15s;
+}
+.pctl-btn:hover { background: color-mix(in srgb, var(--text) 10%, transparent); }
+.pctl-btn.play {
+  background: var(--blue);
+  color: #fff;
+  font-size: 18px;
+  width: 42px;
+  height: 42px;
+  box-shadow: 0 4px 12px color-mix(in srgb, var(--blue) 40%, transparent);
+}
+.pctl-btn.play:hover { opacity: .9; transform: scale(1.05); }
+
+/* ---------- 全屏播放器 ---------- */
+.player-fullscreen {
+  position: fixed;
+  inset: 0;
+  z-index: 300;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg);
+}
+.fs-bg {
+  position: absolute;
+  inset: 0;
+  opacity: .15;
+  filter: blur(40px);
+  background-size: cover;
+  background-position: center;
+}
+.fs-content {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  max-width: 420px;
+  width: 90%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.fs-close {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  background: color-mix(in srgb, var(--text) 10%, transparent);
+  border: none;
+  color: var(--text);
+  font-size: 20px;
+  cursor: pointer;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+}
+.fs-cover-wrap { position: relative; margin-bottom: 24px; }
+.fs-cover {
+  width: 240px;
+  height: 240px;
+  border-radius: 50%;
+  background: var(--bg3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 80px;
+  overflow: hidden;
+  box-shadow: 0 10px 40px rgba(0,0,0,.5);
+  animation: spin 20s linear infinite;
+}
+.fs-cover.paused { animation-play-state: paused; }
+.fs-cover img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+  display: block;
+}
+@keyframes spin {
+  from { transform: rotate(0); }
+  to   { transform: rotate(360deg); }
+}
+.fs-play-overlay {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(0,0,0,.5);
+  color: #fff;
+  font-size: 26px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity .2s;
+}
+.fs-cover-wrap:hover .fs-play-overlay { opacity: 1; }
+.fs-title { font-size: 22px; font-weight: 700; margin-bottom: 4px; }
+.fs-singer { font-size: 14px; color: var(--text2); margin-bottom: 20px; }
+.fs-lyric {
+  height: 240px;
+  overflow-y: auto;
+  width: 100%;
+  margin-bottom: 20px;
+  font-size: 14px;
+  line-height: 2;
+  color: var(--text2);
+}
+.fs-lyric .active { color: var(--blue); font-size: 15px; }
+.fs-progress {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+#fsTime { font-size: 12px; color: var(--text2); white-space: nowrap; }
+#fsProgressBar { flex: 1; }
+.fs-controls { display: flex; gap: 30px; align-items: center; }
+.fs-btn {
+  background: none;
+  border: none;
+  color: var(--text);
+  font-size: 28px;
+  cursor: pointer;
+  width: 48px;
+  height: 48px;
+}
+.fs-btn.big {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: var(--blue);
+  color: #fff;
+  font-size: 28px;
+}
+
+/* ---------- 设置弹窗 ---------- */
+.modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+}
+.modal-content {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  width: 600px;
+  max-width: 95vw;
+  max-height: 85vh;
+  overflow-y: auto;
+}
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 40px 20px 16px;
+  border-bottom: 1px solid var(--border);
+}
+.modal-header h2 { font-size: 17px; }
+.close-btn {
+  background: none;
+  border: none;
+  color: var(--text);
+  font-size: 18px;
+  cursor: pointer;
+}
+.modal-body { padding: 20px; }
+
+.settings-section {
+  background: color-mix(in srgb, var(--blue) 8%, transparent);
+  border-radius: 10px;
+  padding: 12px;
+  margin-bottom: 12px;
+}
+.settings-section:last-child { margin-bottom: 0; }
+.settings-section .card-title { margin: 0 0 10px; }
+
+.switch { position: relative; display: inline-block; width: 44px; height: 24px; }
+.switch input { opacity: 0; width: 0; height: 0; }
+.switch .slider {
+  position: absolute; cursor: pointer; inset: 0;
+  background: #ccc; border-radius: 24px; transition: .3s;
+}
+.switch .slider:before {
+  position: absolute; content: ""; height: 18px; width: 18px;
+  left: 3px; bottom: 3px; background: #fff; border-radius: 50%; transition: .3s;
+}
+.switch input:checked + .slider { background: var(--blue); }
+.switch input:checked + .slider:before { transform: translateX(20px); }
+
+.source-list { margin-top: 12px; }
+.source-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px;
+  background: var(--bg3);
+  border-radius: 8px;
+  margin-bottom: 8px;
+  flex-wrap: wrap;
+}
+.source-info { flex: 1; min-width: 120px; }
+.source-name { font-size: 14px; }
+.source-meta { font-size: 12px; color: var(--text2); }
+.source-badge {
+  font-size: 11px;
+  padding: 2px 8px;
+  border-radius: 10px;
+  color: #fff;
+}
+.source-badge.on { background: var(--green); }
+.source-badge.off { background: var(--red); }
+
+.about-text { color: var(--text2); font-size: 13px; }
+
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+
+/* ============================================================
+ * 音质选择弹窗
+ * ============================================================ */
+.quality-modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 500;
+  padding: 24px;
+}
+.quality-modal-content {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  width: 100%;
+  max-width: 320px;
+  padding: 20px;
+  box-shadow: 0 20px 60px rgba(0,0,0,.5);
+}
+.quality-modal-title {
+  font-size: 16px;
+  font-weight: 600;
+  text-align: center;
+  margin-bottom: 16px;
+  color: var(--text);
+}
+.quality-modal-desc {
+  font-size: 12px;
+  color: var(--text2);
+  text-align: center;
+  margin-bottom: 16px;
+}
+.quality-options {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.quality-option {
+  padding: 14px;
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  color: var(--text);
+  font-size: 14px;
+  cursor: pointer;
+  text-align: center;
+  transition: all .15s;
+  font-family: inherit;
+}
+.quality-option:hover,
+.quality-option:active {
+  background: var(--blue);
+  border-color: var(--blue);
+  color: #fff;
+}
+.quality-cancel {
+  margin-top: 12px;
+  width: 100%;
+  padding: 12px;
+  background: transparent;
+  border: none;
+  color: var(--text2);
+  font-size: 14px;
+  cursor: pointer;
+  border-radius: 10px;
+  font-family: inherit;
+}
+.quality-cancel:hover { background: var(--bg3); color: var(--text); }
+
+/* ============================================================
+ * 移动端适配 (≤768px)
+ * ============================================================ */
+@media (max-width: 768px) {
+  .pwd-wrap { width: 60% !important; }
+  .topbar { padding: 0 12px; height: 48px; }
+  .app-logo { font-size: 20px; }
+
+  .theme-btn { width: 34px; height: 34px; }
+  .theme-dot { width: 18px; height: 18px; }
+  .theme-panel { min-width: 150px; }
+
+  .tabbar {
+    padding: 8px 12px;
+    gap: 6px;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  .tabbar::-webkit-scrollbar { display: none; }
+  .tab-btn { padding: 6px 12px; font-size: 13px; flex-shrink: 0; }
+
+  /* content 顶部不留 padding，底部留播放器高度 */
+  .content { padding: 0 12px 160px; }
+  #tab-search { padding-top: 12px; }
+
+  /* ---------- 全局工具栏：底部滑出，2 排 4+4（紧凑版） ---------- */
+  .global-toolbar {
+    position: fixed;
+    left: 12px;
+    right: 12px;
+    top: auto;
+    bottom: calc(var(--player-bar-h) + 8px + env(safe-area-inset-bottom, 0px));
+    width: auto;
+    display: flex !important;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: stretch;
+    gap: 6px;
+    padding: 8px;
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    box-shadow: 0 -8px 40px rgba(0,0,0,.5);
+    transform: translateY(calc(100% + var(--player-bar-h) + 40px));
+    opacity: 0;
+    pointer-events: none;
+    transition: transform .28s cubic-bezier(.2,.8,.3,1.05), opacity .2s ease;
+    z-index: 45;
+    max-height: calc(100vh - 180px);
+    overflow-y: auto;
+  }
+  .global-toolbar.show {
+    transform: translateY(0);
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .global-toolbar > .tool-btn,
+  .global-toolbar .toolbar-row2 > .tool-btn {
+    flex: 1 1 calc(25% - 6px);
+    min-width: 0;
+    height: 36px;
+    padding: 0 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    font-size: 12px;
+    font-weight: 500;
+    border-radius: 9px;
+    white-space: nowrap;
+    border: 1px solid transparent;
+    background: var(--bg3);
+    color: var(--text);
+    transition: all .12s;
+  }
+  .global-toolbar > .tool-btn:active,
+  .global-toolbar .toolbar-row2 > .tool-btn:active {
+    transform: scale(.96);
+    opacity: .8;
+  }
+
+  .toolbar-row2 {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    gap: 6px;
+    width: 100%;
+    margin-top: 0;
+  }
+  .toolbar-row2 > .tool-btn { flex: 1 1 0; }
+
+  .global-toolbar #rankSelectAll {
+    background: color-mix(in srgb, var(--blue) 22%, transparent);
+    color: var(--blue);
+    border-color: color-mix(in srgb, var(--blue) 40%, transparent);
+  }
+  .global-toolbar #rankInvert {
+    background: color-mix(in srgb, var(--yellow) 22%, transparent);
+    color: var(--yellow);
+    border-color: color-mix(in srgb, var(--yellow) 40%, transparent);
+  }
+  .global-toolbar #rankClearSel {
+    background: color-mix(in srgb, var(--red) 18%, transparent);
+    color: var(--red);
+    border-color: color-mix(in srgb, var(--red) 38%, transparent);
+  }
+  .global-toolbar #rankPlayAll,
+  .global-toolbar #rankPlaySelected {
+    background: #7c3aed;
+    color: #fff;
+    border-color: #7c3aed;
+  }
+  .global-toolbar #rankDownloadNAS {
+    background: var(--blue);
+    color: #fff;
+    border-color: var(--blue);
+  }
+  .global-toolbar #rankSavePlaylist {
+    background: var(--green);
+    color: #fff;
+    border-color: var(--green);
+  }
+  .global-toolbar #rankCopyLinks {
+    background: var(--yellow);
+    color: #000;
+    border-color: var(--yellow);
+  }
+
+  .search-box { flex-wrap: nowrap; gap: 8px; }
+  .search-box input { flex: 1; }
+  .search-box button { white-space: nowrap; }
+
+  .hot-search { line-height: 2.2; }
+  .hot-search span { margin-right: 10px; }
+
+  /* ============================================================
+   * 5 大平台吸顶
+   * 关键点：
+   * - position: sticky; top: 0；相对 .content（滚动容器）吸附
+   * - 用负 margin 抵消 .content 左右 padding，让背景铺满
+   * - 实色背景避免列表穿透
+   * ============================================================ */
+  .rank-platform-bar {
+    position: sticky;
+    top: 0;
+    z-index: 15;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 6px;
+    /* 抵消 content 左右 12px padding，让背景铺满屏宽 */
+    margin: 0 -12px 12px;
+    padding: 12px;
+    background: var(--bg);
+    border-bottom: 1px solid var(--border);
+    box-shadow: 0 2px 8px rgba(0,0,0,.15);
+    align-items: stretch;
+  }
+  .platform-btn {
+    font-size: 12px;
+    padding: 8px 2px;
+    min-height: 40px;
+    border-radius: 10px;
+  }
+
+  /* ---------- 手机端：榜单下拉抽屉 ---------- */
+  .rank-body {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0;
+    width: 100%;
+    min-width: 0;
+  }
+  .rank-main {
+    display: contents;
+  }
+
+  /* 榜单头部（不再 sticky，跟随内容滚动） */
+  .rank-header {
+    grid-row: 1;
+    grid-column: 1 / -1;
+    position: static;
+    margin-bottom: 0;
+    padding: 14px 16px;
+    cursor: pointer;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
+
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    box-shadow: 0 1px 4px rgba(0,0,0,.08);
+
+    transition: border-radius .2s ease, box-shadow .2s ease;
+  }
+  .rank-header:active {
+    background: color-mix(in srgb, var(--bg3) 70%, transparent);
+  }
+  .rank-header.open {
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+    border-bottom-color: transparent;
+  }
+  .rank-header-title {
+    flex: 1;
+    min-width: 0;
+    font-size: 15px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .rank-header-count {
+    flex-shrink: 0;
+    font-size: 11px;
+  }
+  .rank-header-arrow {
+    display: inline-block;
+    flex-shrink: 0;
+    font-size: 12px;
+    color: var(--text2);
+    transition: transform .25s ease;
+  }
+  .rank-header.open .rank-header-arrow {
+    transform: rotate(180deg);
+  }
+
+  /* 展开的列表：fixed 吸顶，独立滚动，top 由 JS 动态设置为 header 底部 */
+  .rank-sidebar {
+    grid-row: 2;
+    grid-column: 1 / -1;
+    position: static;
+    width: 100%;
+    min-width: 0;
+    max-width: 100%;
+    box-sizing: border-box;
+    max-height: 0;
+    overflow: hidden;
+    padding: 0 16px;
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-top: none;
+    border-radius: 0 0 12px 12px;
+    box-shadow: none;
+    transform: none;
+    transition: max-height .3s ease, padding .3s ease;
+  }
+  .rank-sidebar.open {
+    position: fixed;
+    top: 0; /* JS 动态覆盖 */
+    left: 0;
+    right: 0;
+    width: 100%;
+    max-width: 100%;
+    max-height: 65vh;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: 8px 16px 16px;
+    background: var(--bg2);
+    border: none;
+    border-radius: 0 0 16px 16px;
+    box-shadow: 0 12px 40px rgba(0,0,0,.4);
+    transition: none;
+    z-index: 19;
+  }
+
+  .rank-cats {
+    max-height: none;
+    padding-right: 0;
+    min-width: 0;
+    width: 100%;
+  }
+  .rank-group { margin-bottom: 14px; min-width: 0; }
+  .rank-group:last-child { margin-bottom: 4px; }
+  .rank-group-title {
+    font-size: 12px;
+    padding: 6px 4px 8px;
+    letter-spacing: .5px;
+  }
+  .rank-cat {
+    padding: 11px 14px;
+    font-size: 14px;
+    border-radius: 10px;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+    text-align: left;
+  }
+  .rank-cat::before { display: none; }
+
+  #rankList {
+    grid-row: 3;
+    grid-column: 1 / -1;
+    margin-top: 12px;
+    min-width: 0;
+    width: 100%;
+  }
+
+  .rank-loading { padding: 60px 16px; }
+
+  .cat-overlay { z-index: 18; }
+
+  .toolbar { gap: 6px; }
+  .tool-btn { padding: 6px 12px; font-size: 12px; }
+
+  .song-item { padding: 6px 8px; gap: 10px; border-radius: 10px; }
+  .song-num { display: block; width: 26px; font-size: 12px; }
+  .song-item input[type=checkbox] {
+    width: 18px;
+    height: 18px;
+    position: relative;
+    flex-shrink: 0;
+  }
+  .song-item input[type=checkbox]::before {
+    content: '';
+    position: absolute;
+    inset: -13px;
+  }
+  .song-name { font-size: 14px; }
+  .song-singer { font-size: 11.5px; }
+  .song-quality { display: none !important; }
+  .song-play-btn { padding: 8px; margin: -4px; font-size: 16px; }
+
+  .card { padding: 14px; }
+
+  .playlist-actions { gap: 8px; }
+  .playlist-action-btn { padding: 14px 10px; font-size: 13px; border-radius: 10px; }
+  .playlist-action-btn .action-icon { font-size: 18px; }
+
+  .task-status { flex-direction: column; align-items: flex-end; gap: 6px; }
+  .retry-btn { padding: 4px 14px; font-size: 12px; }
+
+  .player-bar {
+    height: 68px;
+    gap: 10px;
+    padding: 6px 12px;
+  }
+  .player-cover { width: 42px; height: 42px; border-radius: 8px; font-size: 20px; }
+  .player-title { font-size: 13px; }
+  .player-singer { font-size: 10.5px; }
+  .player-text { gap: 6px; }
+  .player-progress { gap: 6px; }
+  #playerTime { font-size: 10px; }
+  .player-controls { gap: 0; }
+  .pctl-btn { width: 32px; height: 32px; font-size: 16px; }
+  .pctl-btn.play { width: 38px; height: 38px; font-size: 16px; }
+
+  .modal-content {
+    width: 100vw;
+    max-width: 100vw;
+    max-height: 100vh;
+    border-radius: 0;
+    padding-top: env(safe-area-inset-top, 0);
+  }
+
+  .player-fullscreen { background: var(--bg); }
+  .fs-bg { opacity: .3; filter: blur(60px) brightness(.5); }
+  .fs-content {
+    width: 100%;
+    height: 100%;
+    max-width: none;
+    justify-content: space-between;
+    padding: 60px 30px 40px;
+    overflow-y: auto;
+  }
+  .fs-close { top: 20px; left: 20px; }
+  .fs-cover-wrap { margin: 10px 0 16px; }
+  .fs-cover {
+    width: min(240px, 58vw);
+    height: min(240px, 58vw);
+    border: 6px solid color-mix(in srgb, var(--text) 8%, transparent);
+    box-shadow: 0 20px 60px rgba(0,0,0,.6);
+  }
+  .fs-play-overlay { opacity: 1; }
+  .fs-title { font-size: 18px; margin-bottom: 4px; }
+  .fs-singer { font-size: 13px; margin-bottom: 12px; }
+  .fs-lyric { height: 180px; font-size: 13px; margin-bottom: 10px; }
+  .fs-progress { margin-bottom: 16px; }
+  .fs-controls { gap: 36px; }
+  .fs-btn.big {
+    width: 56px;
+    height: 56px;
+    background: var(--text);
+    color: var(--bg);
+  }
+}
+
+/* ============================================================
+ * 桌面端 (≥769px)
+ * ============================================================ */
+@media (min-width: 769px) {
+  .topbar {
+    background: transparent;
+    border-bottom: none;
+    padding: 28px 24px 0;
+    max-width: 860px;
+    margin: 0 auto;
+    height: auto;
+    gap: 20px;
+  }
+  .app-logo { font-size: 30px; letter-spacing: 1px; }
+  .topbar-right { gap: 18px; padding-right: 4px; }
+
+  .theme-btn {
+    width: 40px;
+    height: 40px;
+    background: color-mix(in srgb, var(--bg2) 60%, transparent);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid var(--border);
+  }
+  .theme-dot { width: 22px; height: 22px; }
+
+  .icon-btn {
+    background: color-mix(in srgb, var(--bg2) 60%, transparent);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid var(--border);
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform .15s;
+  }
+  .icon-btn:hover { transform: scale(1.06); }
+  .icon-btn:active { transform: scale(.95); }
+
+  .tabbar {
+    background: transparent;
+    border-bottom: none;
+    padding: 24px 24px 8px;
+    gap: 14px;
+    max-width: 860px;
+    margin: 0 auto;
+    justify-content: center;
+  }
+  .tab-btn {
+    background: color-mix(in srgb, var(--bg2) 70%, transparent);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid var(--border);
+    border-radius: 22px;
+    color: var(--text);
+    padding: 10px 26px;
+    font-size: 14px;
+    transition: all .15s;
+  }
+  .tab-btn:hover {
+    transform: translateY(-1px);
+    border-color: var(--text2);
+  }
+  .tab-btn.active {
+    background: var(--blue);
+    color: #fff;
+    border-color: var(--blue);
+    box-shadow: 0 6px 20px color-mix(in srgb, var(--blue) 35%, transparent);
+  }
+
+  .content {
+    padding: 16px 24px 140px;
+    max-width: 860px;
+    margin: 0 auto;
+    transition: max-width .25s ease;
+  }
+  .content.rank-mode { max-width: 1120px; }
+
+  .global-toolbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: auto;
+    width: max-content;
+    max-width: 200px;
+    min-width: 96px;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    gap: 6px;
+    align-items: stretch;
+    padding: 10px;
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    box-shadow: 0 12px 40px rgba(0,0,0,.36), 0 2px 8px rgba(0,0,0,.16);
+    transform-origin: center right;
+    transform: translateX(12px);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity .18s ease, transform .22s cubic-bezier(.2,.8,.3,1.15);
+  }
+  .global-toolbar.show { opacity: 1; transform: translateX(0); pointer-events: auto; }
+  .global-toolbar.from-left {
+    transform-origin: center left;
+    transform: translateX(-12px);
+  }
+  .global-toolbar.from-left.show { transform: translateX(0); }
+
+  .global-toolbar .tool-btn {
+    width: 100%;
+    flex: 0 0 auto;
+    text-align: center;
+    padding: 8px 16px;
+    font-size: 13px;
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    color: var(--text);
+    white-space: nowrap;
+  }
+  .global-toolbar .tool-btn.primary {
+    background: color-mix(in srgb, var(--blue) 10%, transparent);
+    border-color: color-mix(in srgb, var(--blue) 25%, transparent);
+    color: var(--blue);
+  }
+  .global-toolbar .tool-btn.blue { background: var(--blue); border-color: var(--blue); color: #fff; }
+  .global-toolbar .tool-btn.green { background: var(--green); border-color: var(--green); color: #fff; }
+
+  .toolbar-row2 {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    width: 100%;
+    margin-top: 0;
+    flex-wrap: nowrap;
+  }
+  .toolbar-row2 > * { width: 100%; flex: 0 0 auto; }
+
+  .search-box {
+    display: flex;
+    background: var(--bg2);
+    border-radius: 50px;
+    padding: 8px 8px 8px 28px;
+    box-shadow: 0 2px 12px rgba(0,0,0,.06);
+    align-items: center;
+    max-width: 100%;
+    margin: 0 auto 20px;
+    border: 1px solid var(--border);
+    gap: 8px;
+  }
+  .search-box input { background: transparent; border: none; flex: 1; font-size: 15px; }
+  .search-box input:focus { outline: none; }
+  .search-box select {
+    background: var(--bg3);
+    border: none;
+    border-radius: 20px;
+    padding: 8px 16px;
+  }
+  .search-box button {
+    background: var(--blue);
+    border: none;
+    border-radius: 20px;
+    padding: 8px 16px;
+    color: #fff;
+    font-weight: 600;
+  }
+
+  .song-list { gap: 10px; }
+  .song-item {
+    background: var(--bg2);
+    border-radius: 16px;
+    padding: 12px 16px;
+    box-shadow: 0 1px 4px rgba(0,0,0,.04);
+  }
+  .song-item:hover { background: var(--bg3); transform: translateY(-1px); }
+  .song-item.playing {
+    background: color-mix(in srgb, var(--blue) 10%, transparent);
+  }
+  .song-play-btn { color: var(--blue); }
+
+  .rank-platform-bar {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 12px;
+    margin-bottom: 20px;
+    position: static;
+  }
+  .platform-btn {
+    background: var(--bg2);
+    color: var(--text);
+    border: 2px solid var(--border);
+    border-radius: 16px;
+    padding: 14px 10px;
+    text-align: center;
+    box-shadow: 0 2px 8px rgba(0,0,0,.05);
+    min-height: 56px;
+    font-size: 14px;
+  }
+  .platform-btn[data-source=kw] { background: var(--bg2); color: #e8820e; }
+  .platform-btn[data-source=wy] { background: var(--bg2); color: #e60026; }
+  .platform-btn[data-source=tx] { background: var(--bg2); color: #1aad19; }
+  .platform-btn[data-source=kg] { background: var(--bg2); color: #ff6600; }
+  .platform-btn[data-source=mg] { background: var(--bg2); color: #0066cc; }
+  .platform-btn.active {
+    outline: none;
+    border-color: var(--blue);
+    background: color-mix(in srgb, var(--blue) 10%, transparent);
+  }
+  .rank-loading { padding: 100px 20px; font-size: 15px; }
+
+  .rank-sidebar {
+    width: 220px;
+    background: var(--bg2);
+    border-radius: 16px;
+    padding: 12px 8px 12px 8px;
+    box-shadow: 0 2px 12px rgba(0,0,0,.05);
+    position: sticky;
+    top: 8px;
+    align-self: flex-start;
+    transform: none;
+    border: 1px solid var(--border);
+    max-height: none;
+    overflow: visible;
+  }
+
+  .rank-cats {
+    gap: 2px;
+    max-height: calc(100vh - 240px);
+    padding-right: 4px;
+  }
+  .rank-cats::-webkit-scrollbar-thumb { background: transparent; }
+  .rank-cats:hover::-webkit-scrollbar-thumb { background: var(--border); }
+
+  .rank-group { margin-bottom: 12px; }
+  .rank-group:last-child { margin-bottom: 0; }
+  .rank-group-title {
+    font-size: 11px;
+    color: var(--text2);
+    padding: 6px 12px 6px 16px;
+    letter-spacing: .8px;
+    font-weight: 600;
+  }
+
+  .rank-cat {
+    padding: 9px 14px 9px 16px;
+    font-size: 13px;
+    color: var(--text);
+    border-radius: 8px;
+    background: transparent;
+    border: none;
+  }
+  .rank-cat:hover { background: var(--bg3); }
+  .rank-cat.active {
+    background: color-mix(in srgb, var(--blue) 10%, transparent);
+    color: var(--blue);
+    font-weight: 500;
+  }
+  .rank-cat.active::before { background: var(--blue); }
+
+  .rank-header {
+    background: color-mix(in srgb, var(--bg2) 92%, transparent);
+    border: none;
+    box-shadow: 0 1px 4px rgba(0,0,0,.05);
+    padding: 14px 20px;
+    margin-bottom: 14px;
+    cursor: default;
+    border-radius: 12px;
+    position: sticky;
+    top: 0;
+  }
+  .rank-header-title { font-size: 17px; color: var(--text); }
+  .rank-header-count { color: var(--text2); }
+  .rank-header-arrow { display: none; }
+
+  .tool-btn {
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    color: var(--text);
+  }
+  .tool-btn.blue { background: #3b82f6; border-color: #3b82f6; color: #fff; }
+  .tool-btn.green { background: var(--green); border-color: var(--green); color: #fff; }
+  .tool-btn.red { background: #ef4444; border-color: #ef4444; color: #fff; }
+
+  .card {
+    background: var(--bg2);
+    border: none;
+    border-radius: 16px;
+    box-shadow: 0 2px 12px rgba(0,0,0,.05);
+  }
+  .playlist-card {
+    background: var(--bg2);
+    border: none;
+    border-radius: 16px;
+    box-shadow: 0 2px 12px rgba(0,0,0,.05);
+  }
+  .playlist-card:hover { border-color: var(--blue); }
+
+  .playlist-actions { gap: 16px; }
+  .playlist-action-btn {
+    background: var(--bg2);
+    border: 2px dashed var(--border);
+    border-radius: 16px;
+    padding: 22px 20px;
+    font-size: 14px;
+    color: var(--text);
+    box-shadow: 0 2px 12px rgba(0,0,0,.04);
+  }
+  .playlist-action-btn:hover {
+    border-color: var(--blue);
+    border-style: solid;
+    background: color-mix(in srgb, var(--blue) 10%, transparent);
+    color: var(--blue);
+    transform: translateY(-1px);
+  }
+  .playlist-action-btn .action-icon { font-size: 22px; }
+
+  .task-item { padding: 14px 0; }
+  .task-status { flex-direction: row; align-items: center; }
+  .retry-btn {
+    background: color-mix(in srgb, var(--red) 10%, transparent);
+    border-color: color-mix(in srgb, var(--red) 30%, transparent);
+    color: var(--red);
+    padding: 4px 14px;
+    font-size: 12px;
+    border-radius: 14px;
+  }
+  .retry-btn:hover { background: var(--red); border-color: var(--red); color: #fff; }
+
+  .modal-content {
+    background: var(--bg2);
+    border: none;
+    border-radius: 20px;
+    box-shadow: 0 20px 60px rgba(0,0,0,.15);
+  }
+  .close-btn { color: var(--text2); }
+
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: var(--border); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fs-cover { animation: none; }
+  * { transition-duration: .01ms !important; }
+}
+
+@supports (scrollbar-width: thin) {
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: var(--border) transparent;
+  }
+}
+
+@keyframes pulse {
+  0% { opacity: 0.6; }
+  50% { opacity: 1; }
+  100% { opacity: 0.6; }
+}
+
+/* === 下载管理状态分类标签栏 === */
+.queue-tabs {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 16px;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 8px;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+.queue-tabs::-webkit-scrollbar { display: none; }
+.q-tab {
+  cursor: pointer;
+  font-size: 14px;
+  color: var(--text2);
+  transition: all 0.2s;
+  white-space: nowrap;
+  padding: 4px 8px;
+  border-radius: 6px;
+}
+.q-tab:hover {
+  background: var(--bg3);
+  color: var(--text);
+}
+.q-tab.active {
+  color: var(--blue);
+  font-weight: bold;
+  background: color-mix(in srgb, var(--blue) 15%, transparent);
+}
+
+/* ==========================================
+   🎨 经典白主题 (Light Mode) 终极覆盖
+   ========================================== */
+html[data-theme="light"] {
+    --bg: #f4f5f7 !important; 
+    --bg2: #ffffff !important; 
+    --bg3: #f0f2f5 !important; 
+    --border: #e1e4e8 !important;
+    --text: #1f2328 !important; 
+    --text2: #656d76 !important;
+    --blue: #0969da !important; 
+    --green: #1a7f37 !important; 
+    --red: #cf222e !important; 
+    --yellow: #9a6700 !important;
+}
+
+/* 破除桌面端媒体查询的黑色锁定 */
+@media (min-width: 769px) {
+    html[data-theme="light"] {
+        --app-bg-image: linear-gradient(135deg, #f4f5f7 0%, #eef1f5 100%) !important;
+    }
+}
+
+/* 强制覆盖背景 */
+html[data-theme="light"], html[data-theme="light"] body, html[data-theme="light"] .app {
+    background: var(--bg) !important;
+    background-image: var(--app-bg-image) !important;
+    color: var(--text) !important;
+}
+
+/* 卡片与面板白化 */
+html[data-theme="light"] .topbar,
+html[data-theme="light"] .tabbar,
+html[data-theme="light"] .player-bar,
+html[data-theme="light"] .song-item,
+html[data-theme="light"] .card,
+html[data-theme="light"] .playlist-card,
+html[data-theme="light"] .modal-content,
+html[data-theme="light"] .global-toolbar {
+    background: var(--bg2) !important;
+    border-color: var(--border) !important;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.05) !important;
+}
+
+/* 文字颜色防穿透 */
+html[data-theme="light"] .song-name,
+html[data-theme="light"] .task-name,
+html[data-theme="light"] .card-title {
+    color: var(--text) !important;
+}
+html[data-theme="light"] .song-singer,
+html[data-theme="light"] .task-meta {
+    color: var(--text2) !important;
+}
+
+/* 按钮与标签页 */
+html[data-theme="light"] .tab-btn.active {
+    background: var(--blue) !important;
+    color: #ffffff !important;
+    border-color: var(--blue) !important;
+}
+html[data-theme="light"] .tool-btn {
+    background: var(--bg3) !important;
+    border-color: var(--border) !important;
+    color: var(--text) !important;
+}
+html[data-theme="light"] .tool-btn.blue {
+    background: var(--blue) !important;
+    color: #fff !important;
+}
+
+/* 下拉框和输入框 */
+html[data-theme="light"] select,
+html[data-theme="light"] input {
+    background: var(--bg2) !important;
+    border-color: var(--border) !important;
+    color: var(--text) !important;
+}
+
+/* 下拉菜单防隐身 */
+html[data-theme="light"] .theme-panel {
+    background: var(--bg2) !important;
+    border-color: var(--border) !important;
+}
+html[data-theme="light"] .theme-option {
+    color: var(--text) !important;
+}
+
+/* ==========================================
+   🚀 终极重塑：极简平台按钮 + 无缝拼接卡片
+   ========================================== */
+@media (max-width: 768px) {
+    
+    /* 1. 容器：变成卡片的上半部，左右边距对齐 */
+    .rank-platform-bar {
+        display: flex !important;
+        justify-content: space-between !important; /* 绝对均分 */
+        align-items: center !important;
+        margin: 0 12px !important; 
+        padding: 12px 14px !important;
+        background: var(--bg2) !important; /* 卡片底色 */
+        border: 1px solid var(--border) !important;
+        border-bottom: none !important; /* 干掉底边框，准备缝合 */
+        border-radius: 16px 16px 0 0 !important; /* 上圆角 */
+        box-shadow: none !important;
+        box-sizing: border-box !important;
+        grid-template-columns: none !important; /* 干掉原版该死的 Grid */
+        gap: 8px !important; 
+    }
+
+    /* 2. 按钮：彻底抹除原版的彩色，强制变成极简小药丸 */
+    .rank-platform-bar .platform-btn {
+        flex: 1 !important;
+        margin: 0 !important;
+        padding: 10px 0 !important;
+        background: var(--bg3) !important; /* 和上方导航栏未选中状态同色 */
+        color: var(--text) !important;
+        border: 1px solid var(--border) !important;
+        border-radius: 8px !important; /* 药丸圆角 */
+        font-size: 13px !important;
+        font-weight: 500 !important;
+        box-shadow: none !important; /* 干掉所有花里胡哨的阴影 */
+        text-shadow: none !important;
+        outline: none !important;
+    }
+
+    /* 3. 选中状态：经典的苹果蓝 */
+    .rank-platform-bar .platform-btn.active {
+        background: var(--blue) !important;
+        color: #ffffff !important;
+        border-color: var(--blue) !important;
+        box-shadow: 0 2px 6px rgba(9, 105, 218, 0.3) !important;
+    }
+
+    /* 4. 榜单标题：变成卡片的下半部，无缝接上 */
+    .rank-header {
+        display: flex !important;
+        align-items: center !important;
+        margin: 0 12px 14px 12px !important; /* 顶部 0 缝隙，底部留出空隙 */
+        width: auto !important; 
+        padding: 14px 16px !important;
+        background: var(--bg2) !important;
+        border: 1px solid var(--border) !important;
+        border-top: 1px solid var(--border) !important; /* 缝合线 */
+        border-radius: 0 0 16px 16px !important; /* 下圆角 */
+        box-shadow: 0 4px 10px -4px rgba(0,0,0,0.05) !important;
+        box-sizing: border-box !important;
+    }
+}
+
+/* ==========================================
+   🚀 第一步测试：5大平台居中 + 底部增加留白
+   ========================================== */
+@media (max-width: 768px) {
+    /* 1. 强制干掉原版的网格布局，变成绝对均分的弹性盒子 */
+    .rank-platform-bar {
+        display: flex !important;
+        justify-content: space-between !important;
+        align-items: center !important;
+        grid-template-columns: none !important; /* 干掉那个该死的 grid */
+        
+        /* 左右保持 12px 留白，底部增加 45px 的留白（约等于一个按钮的高度） */
+        margin: 0 12px !important;
+        padding: 12px 14px 45px 14px !important; 
+        
+        background: var(--bg2) !important;
+        border: 1px solid var(--border) !important;
+        border-bottom: none !important; /* 准备和下方卡片无缝衔接 */
+        border-radius: 16px 16px 0 0 !important;
+        box-sizing: border-box !important;
+    }
+
+    /* 2. 让按钮绝对均匀分布 */
+    .rank-platform-bar .platform-btn {
+        flex: 1 !important;
+        margin: 0 4px !important;
+        border-radius: 8px !important;
+        padding: 10px 0 !important;
+    }
+    .rank-platform-bar .platform-btn:first-child { margin-left: 0 !important; }
+    .rank-platform-bar .platform-btn:last-child { margin-right: 0 !important; }
+
+    /* 3. 下方榜单标题正常拼接 */
+    .rank-header {
+        margin: 0 12px 12px 12px !important;
+        border-radius: 0 0 16px 16px !important;
+        border-top: none !important; /* 删掉之前的虚线，直接融合 */
+        border: 1px solid var(--border) !important;
+        box-shadow: 0 4px 10px -4px rgba(0,0,0,0.1) !important;
+    }
+}
+
+/* ==========================================
+   🚀 细节微调：增加底部20%留白 + 按钮下直角
+   ========================================== */
+@media (max-width: 768px) {
+    /* 1. 底框下边缘留白增加 20%（45px * 1.2 = 54px） */
+    .rank-platform-bar {
+        padding: 12px 14px 54px 14px !important; 
+    }
+
+    /* 2. 5大按钮：保留上圆角，下边缘变直角 */
+    .rank-platform-bar .platform-btn {
+        border-radius: 8px 8px 0 0 !important; 
+    }
+}
+
+/* ==========================================
+   🚀 强制对齐：5大平台底框与下方卡片完美居中
+   ========================================== */
+@media (max-width: 768px) {
+    /* 1. 强行锁死左右边距，干掉原版的溢出 */
+    .rank-platform-bar {
+        margin-left: 12px !important;
+        margin-right: 12px !important;
+        width: calc(100% - 24px) !important; /* 确保宽度刚好扣除两边的边距 */
+        box-sizing: border-box !important;
+        
+        display: flex !important;
+        justify-content: space-between !important;
+        
+        /* 保留之前你要求的下边缘加高和样式 */
+        padding: 12px 14px 54px 14px !important; 
+        background: var(--bg2) !important;
+        border: 1px solid var(--border) !important;
+        border-bottom: none !important;
+        border-radius: 16px 16px 0 0 !important;
+    }
+
+    /* 2. 按钮均匀分布，绝对居中 */
+    .rank-platform-bar .platform-btn {
+        flex: 1 !important;
+        margin: 0 4px !important;
+        border-radius: 8px 8px 0 0 !important;
+    }
+    .rank-platform-bar .platform-btn:first-child { margin-left: 0 !important; }
+    .rank-platform-bar .platform-btn:last-child { margin-right: 0 !important; }
+
+    /* 3. 下方卡片也锁死同样的宽度，确保上下一条线 */
+    .rank-header {
+        margin-left: 12px !important;
+        margin-right: 12px !important;
+        width: calc(100% - 24px) !important;
+        box-sizing: border-box !important;
+        
+        border-radius: 0 0 16px 16px !important;
+        border: 1px solid var(--border) !important;
+        border-top: 1px solid var(--border) !important; 
+    }
+}
+
+/* ==========================================
+   🚀 去除左右边框，变身全屏通栏
+   ========================================== */
+@media (max-width: 768px) {
+    /* 1. 平台栏：去掉左右边距、边框和圆角 */
+    .rank-platform-bar {
+        margin: 0 !important;
+        width: 100% !important;
+        border-left: none !important;
+        border-right: none !important;
+        border-top: none !important; /* 顶部也不留线，更彻底 */
+        border-radius: 0 !important; /* 直角铺满 */
+        
+        /* 保留下方的加高留白 */
+        padding: 12px 14px 54px 14px !important; 
+    }
+
+    /* 2. 榜单标题栏：同样去掉左右边距和边框 */
+    .rank-header {
+        margin: 0 0 12px 0 !important; /* 只留底部空隙 */
+        width: 100% !important;
+        border-left: none !important;
+        border-right: none !important;
+        border-bottom: none !important;
+        border-radius: 0 !important; 
+        border-top: 1px dashed var(--border) !important; /* 保留那条虚线作为分割 */
+    }
+}
+
+/* ==========================================
+   🚀 终极去边框：彻底抹除所有线条，回归纯色
+   ========================================== */
+@media (max-width: 768px) {
+    /* 1. 彻底干掉 5大平台 区域的任何边框和圆角 */
+    .rank-platform-bar {
+        border: none !important; 
+        border-radius: 0 !important;
+        box-shadow: none !important;
+        margin: 0 !important;
+        width: 100% !important;
+    }
+
+    /* 2. 彻底干掉 榜单下拉 区域的任何边框和圆角 */
+    .rank-header {
+        border: none !important; 
+        border-radius: 0 !important;
+        box-shadow: none !important;
+        margin: 0 0 10px 0 !important;
+        width: 100% !important;
+    }
+    
+    /* 3. 确保那个分割虚线也一并消失 */
+    .rank-header {
+        border-top: none !important;
+    }
+}
+
+/* ==========================================
+   🚀 只针对 5大平台：暴力全屏去边
+   ========================================== */
+@media (max-width: 768px) {
+    
+    .rank-platform-bar {
+        /* 1. 强制突破父容器，铺满整个屏幕宽度 */
+        width: 100vw !important;
+        max-width: 100vw !important;
+        margin-left: calc(-50vw + 50%) !important;
+        margin-right: calc(-50vw + 50%) !important;
+        
+        /* 2. 抹除所有边框和圆角 */
+        border: none !important;
+        border-radius: 0 !important;
+        box-shadow: none !important;
+        
+        /* 3. 恢复底色和加高的留白 */
+        background-color: var(--bg2) !important;
+        display: flex !important;
+        justify-content: space-between !important;
+        padding: 12px 12px 54px 12px !important; 
+        box-sizing: border-box !important;
+    }
+
+    /* 4. 内部按钮排版 */
+    .rank-platform-bar .platform-btn {
+        flex: 1 !important;
+        margin: 0 4px !important;
+        border-radius: 8px 8px 0 0 !important; 
+    }
+    .rank-platform-bar .platform-btn:first-child { margin-left: 0 !important; }
+    .rank-platform-bar .platform-btn:last-child { margin-right: 0 !important; }
+}
+
+/* ==========================================
+   🚀 微调：5大平台按钮间距缩小一半
+   ========================================== */
+@media (max-width: 768px) {
+    .rank-platform-bar .platform-btn {
+        /* 左右间距从 4px 缩小到 2px */
+        margin: 0 2px !important; 
+    }
+    /* 确保边缘两个按钮完全贴边 */
+    .rank-platform-bar .platform-btn:first-child { margin-left: 0 !important; }
+    .rank-platform-bar .platform-btn:last-child { margin-right: 0 !important; }
+}
+
+
+/* ==========================================
+   🚀 完美嵌入：变成胶囊按钮，吸进底框留白里
+   ========================================== */
+@media (max-width: 768px) {
+    /* 1. 平台栏底部继续留足空间 */
+    .rank-platform-bar {
+        padding-bottom: 60px !important; /* 留出足够的高度放胶囊按钮 */
+        position: relative !important;
+        z-index: 1;
+    }
+
+    /* 2. 把榜单栏改造成胶囊按钮，并向上提 */
+    .rank-header {
+        /* 核心动作：向上提 45px，钻进上面的白框里 */
+        margin-top: -45px !important; 
+        margin-bottom: 15px !important;
+        
+        /* 居中且不撑满全宽 */
+        margin-left: auto !important;
+        margin-right: auto !important;
+        width: max-content !important;
+        max-width: 90% !important;
+
+        /* 变成按钮的质感：圆角胶囊、浅灰底色 */
+        background: var(--bg3) !important; 
+        border: 1px solid var(--border) !important;
+        border-radius: 20px !important; 
+        padding: 8px 18px !important;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.08) !important;
+        
+        /* 确保它不粘顶，恢复正常排版流 */
+        position: static !important;
+
+        /* 内部元素横向排列、居中 */
+        display: flex !important;
+        justify-content: center !important;
+        align-items: center !important;
+        gap: 8px !important;
+    }
+
+    /* 3. 按钮内部文字微调，更像按钮一点 */
+    .rank-header-title {
+        font-size: 13px !important;
+        font-weight: 600 !important;
+        color: var(--text) !important;
+        margin: 0 !important;
+    }
+    .rank-header-count {
+        font-size: 12px !important;
+        color: var(--text2) !important;
+        margin: 0 !important;
+    }
+    .rank-header-arrow {
+        color: var(--text2) !important;
+        margin-left: 4px;
+    }
+
+    /* 4. 确保下方的列表正常显示，不被遮挡 */
+    .rank-body {
+        margin-top: 0 !important;
+    }
+    #rankList {
+        margin-top: 5px !important;
+    }
+}
+
+/* ==========================================
+   🚀 微调：飙升榜改为绝对直角框
+   ========================================== */
+@media (max-width: 768px) {
+    .rank-header {
+        /* 强制取消所有圆角，变成直角 */
+        border-radius: 0 !important; 
+        
+        /* 稍微加深一点边框，让直角框看起来更硬朗 */
+        border: 1px solid var(--text2) !important; 
+    }
+}
+
+/* ==========================================
+   🚀 极限贴合：飙升榜上边缘紧贴平台按钮下边缘
+   ========================================== */
+@media (max-width: 768px) {
+    .rank-header {
+        /* 1. 加大负边距，让它往上提，吃掉中间的缝隙 */
+        /* 之前的 -45px 不够，现在改为 -55px（根据实际效果可以再微调） */
+        margin-top: -55px !important; 
+        
+        /* 2. 去掉顶部边框，让它和上面的白框彻底融为一体 */
+        border-top: none !important;
+        
+        /* 3. 保留你要的直角框和边框 */
+        border-radius: 0 !important; 
+        border: 1px solid var(--text2) !important; 
+    }
+}
+
+/* ==========================================
+   🚀 极限贴合：彻底干掉最后一丝缝隙
+   ========================================== */
+@media (max-width: 768px) {
+    /* 确保平台栏底部的留白不会太大 */
+    .rank-platform-bar {
+        padding-bottom: 50px !important;
+    }
+
+    .rank-header {
+        /* 1. 用更大的负边距，直接把它顶到按钮下边缘 */
+        margin-top: -50px !important; 
+        
+        /* 2. 干掉所有可能引发间距的 margin */
+        margin-bottom: 12px !important; 
+        
+        /* 3. 保持直角和边框 */
+        border-radius: 0 !important;
+        border: 1px solid var(--text2) !important;
+        border-top: 1px solid var(--text2) !important; /* 确保上边框也在 */
+    }
+    
+    /* 确保父容器没有多余的空隙 */
+    .rank-body {
+        gap: 0 !important;
+    }
+}
+
+/* ==========================================
+   🚀 最终微调：去除下拉框上边缘黑边
+   ========================================== */
+@media (max-width: 768px) {
+    .rank-header {
+        /* 强制去除上边框 */
+        border-top: none !important; 
+    }
+}
+
+/* ==========================================
+   🚀 终极水平对齐：左右边缘精准卡位
+   ========================================== */
+@media (max-width: 768px) {
+    .rank-header {
+        /* 1. 取消宽度限制和居中，让它跟着父容器拉伸 */
+        width: auto !important;
+        max-width: none !important;
+        
+        /* 2. 设置与平台栏完全一致的左右边距（14px） */
+        margin-left: 14px !important;
+        margin-right: 14px !important;
+        
+        /* 3. 保持之前的垂直贴合 */
+        margin-top: -50px !important; 
+        margin-bottom: 12px !important;
+        
+        /* 4. 恢复内部两端对齐：文字在左，下拉箭头在右 */
+        display: flex !important;
+        justify-content: space-between !important;
+        align-items: center !important;
+        
+        /* 5. 保持直角和去除上边框 */
+        border-radius: 0 !important;
+        border-top: none !important;
+        border-left: 1px solid var(--text2) !important;
+        border-right: 1px solid var(--text2) !important;
+        border-bottom: 1px solid var(--text2) !important;
+        
+        /* 稍微调整内边距，让文字不要太贴边 */
+        padding: 10px 16px !important;
+    }
+}
+
+/* ==========================================
+   🚀 终极像素级修正：不遮挡、绝对对齐边缘
+   ========================================== */
+@media (max-width: 768px) {
+    .rank-header {
+        /* 1. 降低提升高度，让它刚好贴在按钮下方，而不是盖住按钮 */
+        margin-top: -42px !important; 
+        
+        /* 2. 强制拉伸宽度，确保左边缘和右边缘绝对对齐按钮 */
+        margin-left: 12px !important; /* 与平台栏的 padding-left 保持绝对一致 */
+        margin-right: 12px !important;
+        width: calc(100% - 24px) !important; 
+        
+        /* 3. 清除所有可能产生缝隙的 margin */
+        margin-bottom: 12px !important;
+        
+        /* 4. 完美直角与边框 */
+        border-radius: 0 !important;
+        border-top: none !important; /* 保持上边缘无缝 */
+        border-left: 1px solid var(--text2) !important;
+        border-right: 1px solid var(--text2) !important;
+        border-bottom: 1px solid var(--text2) !important;
+        
+        /* 5. 内部两端对齐 */
+        display: flex !important;
+        justify-content: space-between !important;
+        align-items: center !important;
+        padding: 12px 16px !important;
+        box-sizing: border-box !important;
+    }
+}
+
+/* ==========================================
+   🚀 终极水平对齐：左右边缘精准卡位
+   ========================================== */
+@media (max-width: 768px) {
+    .rank-header {
+        /* 1. 取消宽度限制和居中，让它跟着父容器拉伸 */
+        width: auto !important;
+        max-width: none !important;
+        
+        /* 2. 设置与平台栏完全一致的左右边距（14px） */
+        margin-left: 14px !important;
+        margin-right: 14px !important;
+        
+        /* 3. 保持之前的垂直贴合 */
+        margin-top: -50px !important; 
+        margin-bottom: 12px !important;
+        
+        /* 4. 恢复内部两端对齐：文字在左，下拉箭头在右 */
+        display: flex !important;
+        justify-content: space-between !important;
+        align-items: center !important;
+        
+        /* 5. 保持直角和去除上边框 */
+        border-radius: 0 !important;
+        border-top: none !important;
+        border-left: 1px solid var(--text2) !important;
+        border-right: 1px solid var(--text2) !important;
+        border-bottom: 1px solid var(--text2) !important;
+        
+        /* 稍微调整内边距，让文字不要太贴边 */
+        padding: 10px 16px !important;
+    }
+}
+
+/* ==========================================
+   🚀 终极拉长：让下拉框向左右延伸至绝对边缘
+   ========================================== */
+@media (max-width: 768px) {
+    .rank-header {
+        /* 1. 左右边距从 12px 压缩到 14px（与平台栏的 padding 绝对一致） */
+        margin-left: 14px !important; 
+        margin-right: 14px !important;
+        
+        /* 2. 宽度跟着变化，强制填满两边 */
+        width: calc(100% - 28px) !important; 
+        
+        /* 3. 保留直角、黑边和贴合的负边距 */
+        margin-top: -42px !important; 
+        margin-bottom: 12px !important;
+        border-radius: 0 !important;
+        border-top: none !important;
+        border-left: 1px solid var(--text2) !important;
+        border-right: 1px solid var(--text2) !important;
+        border-bottom: 1px solid var(--text2) !important;
+        
+        box-sizing: border-box !important;
+        display: flex !important;
+        justify-content: space-between !important;
+        align-items: center !important;
+        padding: 12px 16px !important;
+    }
+}
+
+/* ==========================================
+   🚀 终极水平对齐：左右边缘精准卡位
+   ========================================== */
+@media (max-width: 768px) {
+    .rank-header {
+        /* 1. 取消宽度限制和居中，让它跟着父容器拉伸 */
+        width: auto !important;
+        max-width: none !important;
+        
+        /* 2. 设置与平台栏完全一致的左右边距（14px） */
+        margin-left: 14px !important;
+        margin-right: 14px !important;
+        
+        /* 3. 保持之前的垂直贴合 */
+        margin-top: -50px !important; 
+        margin-bottom: 12px !important;
+        
+        /* 4. 恢复内部两端对齐：文字在左，下拉箭头在右 */
+        display: flex !important;
+        justify-content: space-between !important;
+        align-items: center !important;
+        
+        /* 5. 保持直角和去除上边框 */
+        border-radius: 0 !important;
+        border-top: none !important;
+        border-left: 1px solid var(--text2) !important;
+        border-right: 1px solid var(--text2) !important;
+        border-bottom: 1px solid var(--text2) !important;
+        
+        /* 稍微调整内边距，让文字不要太贴边 */
+        padding: 10px 16px !important;
+    }
+}
+
+/* ==========================================
+   🚀 终极拉伸：向左扩宽，绝对对齐酷我按钮
+   ========================================== */
+@media (max-width: 768px) {
+    .rank-header {
+        /* 1. 左右边距从 14px 缩小到 12px，让框变长 */
+        margin-left: 12px !important; 
+        margin-right: 12px !important;
+        
+        /* 2. 同步宽度 */
+        width: calc(100% - 24px) !important;
+        max-width: none !important;
+        box-sizing: border-box !important;
+        
+        /* 3. 维持垂直贴合和不遮挡 */
+        margin-top: -42px !important; 
+        margin-bottom: 12px !important;
+        
+        /* 4. 维持直角、无顶边 */
+        border-radius: 0 !important;
+        border-top: none !important;
+        border-left: 1px solid var(--text2) !important;
+        border-right: 1px solid var(--text2) !important;
+        border-bottom: 1px solid var(--text2) !important;
+        
+        display: flex !important;
+        justify-content: space-between !important;
+        align-items: center !important;
+        padding: 10px 16px !important;
+    }
+}
+
+/* ==========================================
+   🚀 严格基于你刚执行的代码：扩大宽度，精准对齐
+   ========================================== */
+@media (max-width: 768px) {
+    .rank-header {
+        /* 你的原参数保持不变 */
+        margin-left: 14px !important;
+        margin-right: 14px !important;
+        margin-top: -50px !important; 
+        margin-bottom: 12px !important;
+        padding: 10px 16px !important;
+        
+        /* 直角和无顶边保持 */
+        border-radius: 0 !important;
+        border-top: none !important;
+        border-left: 1px solid var(--text2) !important;
+        border-right: 1px solid var(--text2) !important;
+        border-bottom: 1px solid var(--text2) !important;
+        
+        /* 内部两端对齐 */
+        display: flex !important;
+        justify-content: space-between !important;
+        align-items: center !important;
+
+        /* 🚀 核心修正：彻底锁死宽度，让它长度增加，精准咬合上方按钮 */
+        width: calc(100% - 28px) !important;
+        max-width: none !important;
+        box-sizing: border-box !important; 
+    }
+}
+
+/* ==========================================
+   🚀 像素级微调：左边缘绝对对齐
+   ========================================== */
+@media (max-width: 768px) {
+    .rank-header {
+        /* 1. 将左右边距从 14px 缩减到 12px，向左扩宽 */
+        margin-left: 12px !important;
+        margin-right: 12px !important;
+        
+        /* 2. 同步宽度，让它完美填满 */
+        width: calc(100% - 24px) !important;
+        box-sizing: border-box !important;
+        
+        /* 3. 其他完美参数保持原样，绝不瞎动 */
+        margin-top: -50px !important; 
+        margin-bottom: 12px !important;
+        padding: 10px 16px !important;
+        border-radius: 0 !important;
+        border-top: none !important;
+        border-left: 1px solid var(--text2) !important;
+        border-right: 1px solid var(--text2) !important;
+        border-bottom: 1px solid var(--text2) !important;
+        display: flex !important;
+        justify-content: space-between !important;
+        align-items: center !important;
+    }
+}
+
+/* ==========================================
+   🚀 下拉框左右各加宽 5px
+   ========================================== */
+@media (max-width: 768px) {
+    .rank-header {
+        /* 1. 左右边距从 12px 缩减到 7px */
+        margin-left: 7px !important;
+        margin-right: 7px !important;
+        
+        /* 2. 同步宽度：100% - (7px + 7px) = calc(100% - 14px) */
+        width: calc(100% - 14px) !important;
+        box-sizing: border-box !important;
+        
+        /* 3. 其他完美参数保持不变 */
+        margin-top: -50px !important; 
+        margin-bottom: 12px !important;
+        padding: 10px 16px !important;
+        border-radius: 0 !important;
+        border-top: none !important;
+        border-left: 1px solid var(--text2) !important;
+        border-right: 1px solid var(--text2) !important;
+        border-bottom: 1px solid var(--text2) !important;
+        display: flex !important;
+        justify-content: space-between !important;
+        align-items: center !important;
+    }
+}
+
+/* ==========================================
+   🚀 下拉框左右再各加宽 5px
+   ========================================== */
+@media (max-width: 768px) {
+    .rank-header {
+        /* 1. 左右边距从 7px 缩减到 2px */
+        margin-left: 2px !important;
+        margin-right: 2px !important;
+        
+        /* 2. 同步宽度：100% - (2px + 2px) = calc(100% - 4px) */
+        width: calc(100% - 4px) !important;
+        box-sizing: border-box !important;
+        
+        /* 3. 其他完美参数保持不变 */
+        margin-top: -50px !important; 
+        margin-bottom: 12px !important;
+        padding: 10px 16px !important;
+        border-radius: 0 !important;
+        border-top: none !important;
+        border-left: 1px solid var(--text2) !important;
+        border-right: 1px solid var(--text2) !important;
+        border-bottom: 1px solid var(--text2) !important;
+        display: flex !important;
+        justify-content: space-between !important;
+        align-items: center !important;
+    }
+}
+
+/* ==========================================
+   🚀 下拉框左右再各加宽 1px
+   ========================================== */
+@media (max-width: 768px) {
+    .rank-header {
+        /* 1. 左右边距缩减到极限 1px */
+        margin-left: 1px !important;
+        margin-right: 1px !important;
+        
+        /* 2. 同步宽度：100% - 2px */
+        width: calc(100% - 2px) !important;
+        box-sizing: border-box !important;
+        
+        /* 3. 其他完美参数保持不变 */
+        margin-top: -50px !important; 
+        margin-bottom: 12px !important;
+        padding: 10px 16px !important;
+        border-radius: 0 !important;
+        border-top: none !important;
+        border-left: 1px solid var(--text2) !important;
+        border-right: 1px solid var(--text2) !important;
+        border-bottom: 1px solid var(--text2) !important;
+        display: flex !important;
+        justify-content: space-between !important;
+        align-items: center !important;
+    }
+}
+
+/* ==========================================
+   🚀 下拉框贴边极限：左右再各加宽 1px
+   ========================================== */
+@media (max-width: 768px) {
+    .rank-header {
+        /* 1. 左右边距彻底归零，实现 100% 满宽 */
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+        
+        /* 2. 宽度拉满 */
+        width: 100% !important;
+        box-sizing: border-box !important;
+        
+        /* 3. 其他完美参数保持不变 */
+        margin-top: -50px !important; 
+        margin-bottom: 12px !important;
+        padding: 10px 16px !important;
+        border-radius: 0 !important;
+        border-top: none !important;
+        border-left: 1px solid var(--text2) !important;
+        border-right: 1px solid var(--text2) !important;
+        border-bottom: 1px solid var(--text2) !important;
+        display: flex !important;
+        justify-content: space-between !important;
+        align-items: center !important;
+    }
+}
+
+/* ==========================================
+   🚀 终极上色：下拉框变身主题蓝，文字全白
+   ========================================== */
+@media (max-width: 768px) {
+    .rank-header {
+        /* 1. 背景变为主题蓝，边框也变成蓝色 */
+        background-color: var(--blue) !important; 
+        border-left: 1px solid var(--blue) !important;
+        border-right: 1px solid var(--blue) !important;
+        border-bottom: 1px solid var(--blue) !important;
+        
+        /* 2. 加一点微弱的阴影，让蓝色框更有立体感 */
+        box-shadow: 0 4px 10px -4px rgba(9, 105, 218, 0.4) !important;
+    }
+
+    /* 3. 里面的文字、数字、箭头全部变成纯白色 */
+    .rank-header-title, 
+    .rank-header-count, 
+    .rank-header-arrow {
+        color: #ffffff !important;
+    }
+}
+
+/* ==========================================
+   🚀 下拉菜单对齐：贴边满宽，去除圆角
+   ========================================== */
+@media (max-width: 768px) {
+    /* 1. 确保下拉菜单展开时，完全贴边且没有圆角 */
+    .rank-sidebar.open {
+        left: 0 !important;
+        right: 0 !important;
+        width: 100vw !important;
+        max-width: 100vw !important;
+        border-radius: 0 !important; /* 直角，和上面的下拉框完美衔接 */
+        border-left: none !important;
+        border-right: none !important;
+        border-bottom: none !important;
+        
+        /* 稍微减小内边距，让选项更靠边 */
+        padding: 10px 16px 20px 16px !important; 
+    }
+
+    /* 2. 确保下拉菜单的列表容器也是满宽 */
+    .rank-sidebar .rank-cats {
+        width: 100% !important;
+        max-width: 100% !important;
+    }
+
+    /* 3. 如果有顶部边框或者分割线，也一并统一 */
+    .rank-header.open {
+        /* 展开时，把底部的边线去掉，让菜单完全贴合 */
+        border-bottom: none !important;
+    }
+}
+
+/* ==========================================
+   🚀 绝对边框对齐：下拉菜单贴边满宽
+   ========================================== */
+@media (max-width: 768px) {
+    /* 1. 强行把展开的抽屉面板贴边满宽，干掉所有边距和圆角 */
+    .rank-sidebar.open {
+        left: 0 !important;
+        right: 0 !important;
+        width: 100vw !important;
+        max-width: 100vw !important;
+        margin: 0 !important;
+        padding: 10px 0 !important; /* 清除左右padding，只留上下 */
+        border: none !important;    /* 去除所有边框 */
+        border-radius: 0 !important; /* 彻底抹平圆角 */
+        box-shadow: 0 10px 20px rgba(0,0,0,0.1) !important;
+    }
+
+    /* 2. 确保内部列表容器也是 100% 满宽 */
+    .rank-sidebar .rank-cats {
+        width: 100% !important;
+        padding: 0 !important;
+        margin: 0 !important;
+    }
+
+    /* 3. 列表里的每一项，不再用外层padding，改为内层留白 */
+    .rank-sidebar .rank-cat {
+        width: 100% !important;
+        margin: 0 !important;
+        padding: 12px 16px !important; /* 左右给16px，让文字看起来舒服，但背景铺满 */
+        border-radius: 0 !important; /* 选项也不要圆角 */
+    }
+    
+    .rank-sidebar .rank-group-title {
+        padding: 6px 16px !important; /* 分类标题也保持一致的内边距 */
+    }
+}
+
+/* ==========================================
+   🚀 悬浮抽屉：下拉菜单左右留白，卡片化
+   ========================================== */
+@media (max-width: 768px) {
+    /* 1. 把下拉菜单收缩，左右留出边距 */
+    .rank-sidebar.open {
+        left: 12px !important;
+        right: 12px !important;
+        width: auto !important;
+        max-width: none !important;
+        
+        /* 2. 增加圆角和边框，产生卡片感 */
+        border-radius: 12px !important;
+        border: 1px solid var(--border) !important;
+        
+        /* 3. 加上深色阴影，让它悬浮起来 */
+        box-shadow: 0 10px 30px rgba(0,0,0,0.4) !important;
+        
+        /* 4. 往下挪一点，和上面的蓝色下拉框拉开距离 */
+        transform: translateY(8px) !important;
+        
+        /* 5. 内部留出上下边距 */
+        padding: 12px 16px !important;
+    }
+}
+
+/* ==========================================
+   🚀 微调：去除下拉菜单的圆角
+   ========================================== */
+@media (max-width: 768px) {
+    .rank-sidebar.open {
+        /* 强制圆角归零 */
+        border-radius: 0 !important; 
+    }
+}
+
+/* ==========================================
+   🚀 下拉菜单变装：同款蓝底白字
+   ========================================== */
+@media (max-width: 768px) {
+    /* 1. 菜单面板背景变蓝 */
+    .rank-sidebar.open {
+        background: var(--blue) !important;
+        border-color: var(--blue) !important; /* 边框也变蓝 */
+    }
+
+    /* 2. 所有选项文字变白 */
+    .rank-sidebar.open .rank-cat {
+        color: #ffffff !important;
+    }
+
+    /* 3. 分类标题（如“热门”）变成半透明白色 */
+    .rank-sidebar.open .rank-group-title {
+        color: rgba(255, 255, 255, 0.7) !important;
+    }
+
+    /* 4. 当前选中的选项（如飙升榜）：白底蓝字，增强对比 */
+    .rank-sidebar.open .rank-cat.active {
+        background: #ffffff !important;
+        color: var(--blue) !important;
+        font-weight: bold !important;
+    }
+}
+
+/* ==========================================
+   🚀 无缝缝合：去除下拉菜单上方的黑边
+   ========================================== */
+@media (max-width: 768px) {
+    /* 1. 干掉展开菜单的所有上边距和位移，让它死死贴住上面的蓝条 */
+    .rank-sidebar.open {
+        margin-top: 0 !important;
+        transform: none !important; /* 取消之前的悬浮位移 */
+        border-top: none !important; /* 去掉上边框，防止双重线 */
+    }
+
+    /* 2. 干掉上方蓝色标题栏的下边距和下边框 */
+    .rank-header {
+        margin-bottom: 0 !important;
+        border-bottom: none !important;
+    }
+
+    /* 3. 如果原版 JS 计算 top 值时因为 padding 产生了偏移，强制修复 */
+    .rank-sidebar.open {
+        padding-top: 12px !important; /* 保持内部内容有正常的顶部留白 */
+    }
+}
+
+/* ==========================================
+   🚀 极致扁平化：彻底去除平台按钮的阴影
+   ========================================== */
+@media (max-width: 768px) {
+    /* 1. 干掉未选中按钮的所有阴影 */
+    .rank-platform-bar .platform-btn {
+        box-shadow: none !important;
+    }
+
+    /* 2. 干掉选中按钮（酷我）的下发蓝色阴影 */
+    .rank-platform-bar .platform-btn.active {
+        box-shadow: none !important;
+    }
+}
+
+/* ==========================================
+   🚀 极致扁平化：去除下拉框和标题栏的阴影
+   ========================================== */
+@media (max-width: 768px) {
+    /* 1. 干掉蓝色标题栏的阴影 */
+    .rank-header {
+        box-shadow: none !important;
+    }
+
+    /* 2. 干掉下拉菜单展开时的悬浮阴影 */
+    .rank-sidebar.open {
+        box-shadow: none !important;
+    }
+}
+
+/* ==========================================
+   🚀 浅蓝主题色替换（针对3个特定区域）
+   ========================================== */
+@media (max-width: 768px) {
+    /* 1. 选中的平台按钮（如酷我） */
+    .rank-platform-bar .platform-btn.active {
+        background: #4dabf7 !important; 
+        border-color: #4dabf7 !important;
+    }
+
+    /* 2. 飙升榜下拉框长条 */
+    .rank-header {
+        background-color: #4dabf7 !important;
+        border-color: #4dabf7 !important;
+    }
+
+    /* 3. 展开的下拉菜单背景 */
+    .rank-sidebar.open {
+        background: #4dabf7 !important;
+        border-color: #4dabf7 !important;
+    }
+
+    /* 4. 适配内部选中项（保持白底，但文字改为对应的浅蓝色） */
+    .rank-sidebar.open .rank-cat.active {
+        color: #4dabf7 !important;
+    }
+}
+
+/* ==========================================
+   🚀 灰调主题替换（针对3个特定区域）
+   ========================================== */
+@media (max-width: 768px) {
+    /* 1. 选中的平台按钮（如酷我） */
+    .rank-platform-bar .platform-btn.active {
+        background: #7a828e !important; 
+        border-color: #7a828e !important;
+    }
+
+    /* 2. 飙升榜下拉框长条 */
+    .rank-header {
+        background-color: #7a828e !important;
+        border-color: #7a828e !important;
+    }
+
+    /* 3. 展开的下拉菜单背景 */
+    .rank-sidebar.open {
+        background: #7a828e !important;
+        border-color: #7a828e !important;
+    }
+
+    /* 4. 适配内部选中项（白底，文字变为同款灰色） */
+    .rank-sidebar.open .rank-cat.active {
+        color: #7a828e !important;
+    }
+}
+
+/* ==========================================
+   🚀 经典白主题：三大区域注入“一点点蓝”
+   ========================================== */
+@media (max-width: 768px) {
+    /* 限定在白色主题下生效 */
+    html[data-theme="light"] {
+
+        /* 1. 选中的平台按钮（如酷我） */
+        .rank-platform-bar .platform-btn.active {
+            background: #eef4fb !important; 
+            border-color: #d2e3fc !important; /* 配一条淡淡的浅蓝边 */
+            color: var(--blue) !important;    /* 文字变成主题蓝 */
+        }
+
+        /* 2. 飙升榜下拉框长条 */
+        .rank-header {
+            background-color: #eef4fb !important;
+            border-color: #d2e3fc !important;
+        }
+        /* 长条里的文字与箭头变成深色 */
+        .rank-header-title, 
+        .rank-header-count, 
+        .rank-header-arrow {
+            color: #1f2328 !important; 
+        }
+
+        /* 3. 展开的下拉菜单 */
+        .rank-sidebar.open {
+            background: #eef4fb !important;
+            border-color: #d2e3fc !important;
+        }
+        /* 菜单里的普通选项文字变成深灰 */
+        .rank-sidebar.open .rank-cat {
+            color: #1f2328 !important;
+        }
+        /* 菜单里的分类标题颜色 */
+        .rank-sidebar.open .rank-group-title {
+            color: #656d76 !important;
+        }
+        /* 菜单里选中的选项（白底蓝字） */
+        .rank-sidebar.open .rank-cat.active {
+            background: #ffffff !important;
+            color: var(--blue) !important;
+        }
+    }
+}
+
+/* ==========================================
+   🚀 经典白主题：浅蓝浓度增加20%
+   ========================================== */
+@media (max-width: 768px) {
+    html[data-theme="light"] {
+
+        /* 1. 选中的平台按钮 */
+        .rank-platform-bar .platform-btn.active {
+            background: #d4e5fa !important; /* 颜色加深 */
+            border-color: #b8d2f5 !important; /* 边框同步加深 */
+        }
+
+        /* 2. 飙升榜下拉框长条 */
+        .rank-header {
+            background-color: #d4e5fa !important;
+            border-color: #b8d2f5 !important;
+        }
+
+        /* 3. 展开的下拉菜单 */
+        .rank-sidebar.open {
+            background: #d4e5fa !important;
+            border-color: #b8d2f5 !important;
+        }
+        
+        /* 菜单里选中的选项（依然保持白底，凸显层次） */
+        .rank-sidebar.open .rank-cat.active {
+            background: #ffffff !important;
+            color: var(--blue) !important;
+        }
+    }
+}
+
+/* ==========================================
+   🚀 经典白主题：浅蓝浓度再次增加20%
+   ========================================== */
+@media (max-width: 768px) {
+    html[data-theme="light"] {
+
+        /* 1. 选中的平台按钮 */
+        .rank-platform-bar .platform-btn.active {
+            background: #a3c9f2 !important; /* 颜色更深一档的天空蓝 */
+            border-color: #82b5ea !important; /* 边框同步加深 */
+            color: #ffffff !important;        /* 因为底色深了，文字改回白色更清晰 */
+        }
+
+        /* 2. 飙升榜下拉框长条 */
+        .rank-header {
+            background-color: #a3c9f2 !important;
+            border-color: #82b5ea !important;
+        }
+        /* 长条里的文字改回白色 */
+        .rank-header-title, 
+        .rank-header-count, 
+        .rank-header-arrow {
+            color: #ffffff !important; 
+        }
+
+        /* 3. 展开的下拉菜单 */
+        .rank-sidebar.open {
+            background: #a3c9f2 !important;
+            border-color: #82b5ea !important;
+        }
+        /* 菜单里的普通选项文字改回白色 */
+        .rank-sidebar.open .rank-cat {
+            color: #ffffff !important;
+        }
+        /* 菜单里的分类标题（半透明白） */
+        .rank-sidebar.open .rank-group-title {
+            color: rgba(255, 255, 255, 0.75) !important;
+        }
+        /* 菜单里选中的选项（白底蓝字，对比最强烈） */
+        .rank-sidebar.open .rank-cat.active {
+            background: #ffffff !important;
+            color: #0973dc !important; /* 稍微深一点的蓝字 */
+        }
+    }
+}
+
+/* ==========================================
+   🚀 经典黑主题：三大区域提亮20%（深灰石板色）
+   ========================================== */
+@media (max-width: 768px) {
+    /* 限定在经典黑主题下生效 */
+    html[data-theme="classic"] {
+        /* 1. 选中的平台按钮 */
+        .rank-platform-bar .platform-btn.active {
+            background: #333a44 !important; 
+            border-color: #444c56 !important;
+            color: #ffffff !important; /* 纯白文字保证清晰 */
+        }
+
+        /* 2. 飙升榜下拉框长条 */
+        .rank-header {
+            background-color: #333a44 !important;
+            border-color: #444c56 !important;
+        }
+        .rank-header-title, 
+        .rank-header-count, 
+        .rank-header-arrow {
+            color: #ffffff !important; 
+        }
+
+        /* 3. 展开的下拉菜单 */
+        .rank-sidebar.open {
+            background: #333a44 !important;
+            border-color: #444c56 !important;
+        }
+        .rank-sidebar.open .rank-cat {
+            color: #ffffff !important;
+        }
+        .rank-sidebar.open .rank-group-title {
+            color: rgba(255, 255, 255, 0.6) !important;
+        }
+        
+        /* 4. 菜单里选中的选项（白底黑字/深灰字） */
+        .rank-sidebar.open .rank-cat.active {
+            background: #ffffff !important;
+            color: #333a44 !important; /* 文字用深灰呼应背景 */
+            font-weight: bold !important;
+        }
+    }
+}
+
+/* ==========================================
+   🚀 经典黑主题：三大区域提亮5%（极暗灰）
+   ========================================== */
+@media (max-width: 768px) {
+    html[data-theme="classic"] {
+        /* 1. 选中的平台按钮 */
+        .rank-platform-bar .platform-btn.active {
+            background: #181c23 !important; 
+            border-color: #2f353d !important;
+            color: #ffffff !important; 
+        }
+
+        /* 2. 飙升榜下拉框长条 */
+        .rank-header {
+            background-color: #181c23 !important;
+            border-color: #2f353d !important;
+        }
+        
+        /* 3. 展开的下拉菜单 */
+        .rank-sidebar.open {
+            background: #181c23 !important;
+            border-color: #2f353d !important;
+        }
+        
+        /* 4. 菜单里选中的选项（保持醒目，使用主题蓝或白） */
+        .rank-sidebar.open .rank-cat.active {
+            background: #ffffff !important;
+            color: #0d1117 !important; 
+            font-weight: bold !important;
+        }
+    }
+}
+
+/* ==========================================
+   🚀 经典黑主题：三大区域提亮10%（高级石墨灰）
+   ========================================== */
+@media (max-width: 768px) {
+    html[data-theme="classic"] {
+        /* 1. 选中的平台按钮 */
+        .rank-platform-bar .platform-btn.active {
+            background: #21262d !important; 
+            border-color: #3b424c !important; /* 边缘稍微亮一点 */
+            color: #ffffff !important; 
+        }
+
+        /* 2. 飙升榜下拉框长条 */
+        .rank-header {
+            background-color: #21262d !important;
+            border-color: #3b424c !important;
+        }
+        
+        /* 3. 展开的下拉菜单 */
+        .rank-sidebar.open {
+            background: #21262d !important;
+            border-color: #3b424c !important;
+        }
+        
+        /* 4. 菜单里的普通文字和选中项 */
+        .rank-sidebar.open .rank-cat {
+            color: #e6edf3 !important; /* 柔和的白色，防刺眼 */
+        }
+        .rank-sidebar.open .rank-cat.active {
+            background: #ffffff !important;
+            color: #21262d !important; /* 白底深灰字 */
+            font-weight: bold !important;
+        }
+    }
+}
+
+/* ==========================================
+   🚀 经典黑主题：三大区域替换为浅蓝色
+   ========================================== */
+@media (max-width: 768px) {
+    html[data-theme="classic"] {
+        /* 1. 选中的平台按钮 */
+        .rank-platform-bar .platform-btn.active {
+            background: #a3c9f2 !important; 
+            border-color: #82b5ea !important;
+            color: #0d1117 !important; /* 深色文字，因为底是浅蓝 */
+        }
+
+        /* 2. 飙升榜下拉框长条 */
+        .rank-header {
+            background-color: #a3c9f2 !important;
+            border-color: #82b5ea !important;
+        }
+        .rank-header-title, 
+        .rank-header-count, 
+        .rank-header-arrow {
+            color: #0d1117 !important; /* 文字变深色 */
+        }
+        
+        /* 3. 展开的下拉菜单 */
+        .rank-sidebar.open {
+            background: #a3c9f2 !important;
+            border-color: #82b5ea !important;
+        }
+        .rank-sidebar.open .rank-cat {
+            color: #0d1117 !important; /* 文字变深色 */
+            font-weight: 500 !important;
+        }
+        .rank-sidebar.open .rank-group-title {
+            color: rgba(13, 17, 23, 0.6) !important;
+        }
+        
+        /* 4. 菜单里选中的选项（白底深灰字） */
+        .rank-sidebar.open .rank-cat.active {
+            background: #ffffff !important;
+            color: #0d1117 !important; 
+            font-weight: bold !important;
+        }
+    }
+}
+
+/* ==========================================
+   🚀 双主题统一：蓝色浓度再次增加20%
+   ========================================== */
+@media (max-width: 768px) {
+    
+    /* ==========================================
+       经典白主题 (light)
+       ========================================== */
+    html[data-theme="light"] {
+        .rank-platform-bar .platform-btn.active {
+            background: #78b0e8 !important; 
+            border-color: #5c9ce0 !important;
+            color: #ffffff !important; /* 颜色深了，文字改回白色 */
+        }
+        .rank-header {
+            background-color: #78b0e8 !important;
+            border-color: #5c9ce0 !important;
+        }
+        .rank-header-title, .rank-header-count, .rank-header-arrow {
+            color: #ffffff !important; 
+        }
+        .rank-sidebar.open {
+            background: #78b0e8 !important;
+            border-color: #5c9ce0 !important;
+        }
+        .rank-sidebar.open .rank-cat {
+            color: #ffffff !important;
+        }
+        .rank-sidebar.open .rank-group-title {
+            color: rgba(255, 255, 255, 0.75) !important;
+        }
+        .rank-sidebar.open .rank-cat.active {
+            background: #ffffff !important;
+            color: #78b0e8 !important; /* 白底蓝字 */
+        }
+    }
+
+    /* ==========================================
+       经典黑主题 (classic)
+       ========================================== */
+    html[data-theme="classic"] {
+        .rank-platform-bar .platform-btn.active {
+            background: #78b0e8 !important; 
+            border-color: #5c9ce0 !important;
+            color: #ffffff !important; /* 文字改为白色 */
+        }
+        .rank-header {
+            background-color: #78b0e8 !important;
+            border-color: #5c9ce0 !important;
+        }
+        .rank-header-title, .rank-header-count, .rank-header-arrow {
+            color: #ffffff !important; 
+        }
+        .rank-sidebar.open {
+            background: #78b0e8 !important;
+            border-color: #5c9ce0 !important;
+        }
+        .rank-sidebar.open .rank-cat {
+            color: #ffffff !important; 
+        }
+        .rank-sidebar.open .rank-group-title {
+            color: rgba(255, 255, 255, 0.7) !important;
+        }
+        .rank-sidebar.open .rank-cat.active {
+            background: #ffffff !important;
+            color: #78b0e8 !important; 
+        }
+    }
+}
+
+/* ==========================================
+   🚀 下拉菜单字体改为黑色
+   ========================================== */
+@media (max-width: 768px) {
+    
+    /* 1. 经典白主题下 */
+    html[data-theme="light"] .rank-sidebar.open .rank-cat {
+        color: #000000 !important; /* 纯黑 */
+    }
+    html[data-theme="light"] .rank-sidebar.open .rank-group-title {
+        color: rgba(0, 0, 0, 0.6) !important; /* 深灰，作为分类标题 */
+    }
+    html[data-theme="light"] .rank-sidebar.open .rank-cat.active {
+        background: #ffffff !important;
+        color: #000000 !important; /* 白底黑字 */
+    }
+
+    /* 2. 经典黑主题下 */
+    html[data-theme="classic"] .rank-sidebar.open .rank-cat {
+        color: #000000 !important;
+    }
+    html[data-theme="classic"] .rank-sidebar.open .rank-group-title {
+        color: rgba(0, 0, 0, 0.6) !important;
+    }
+    html[data-theme="classic"] .rank-sidebar.open .rank-cat.active {
+        background: #ffffff !important;
+        color: #000000 !important; 
+    }
+}
+
+/* ==========================================
+   🚀 蓝色区域文字全黑化（按钮 + 飙升榜标题）
+   ========================================== */
+@media (max-width: 768px) {
+    
+    /* 1. 经典白主题下 */
+    html[data-theme="light"] .rank-platform-bar .platform-btn.active {
+        color: #000000 !important; /* 选中的平台按钮文字变黑 */
+    }
+    html[data-theme="light"] .rank-header-title, 
+    html[data-theme="light"] .rank-header-count, 
+    html[data-theme="light"] .rank-header-arrow {
+        color: #000000 !important; /* 飙升榜标题、数量和箭头变黑 */
+    }
+
+    /* 2. 经典黑主题下 */
+    html[data-theme="classic"] .rank-platform-bar .platform-btn.active {
+        color: #000000 !important; 
+    }
+    html[data-theme="classic"] .rank-header-title, 
+    html[data-theme="classic"] .rank-header-count, 
+    html[data-theme="classic"] .rank-header-arrow {
+        color: #000000 !important; 
+    }
+}
+
+/* ==========================================
+   🚀 纯净美化：蓝色底框、白字选项、大号黑斜体分类
+   ========================================== */
+@media (max-width: 768px) {
+    
+    /* 1. 下拉菜单底框：变成之前的蓝色 */
+    .rank-sidebar.open {
+        background: #7db3eb !important; 
+        border-color: #7db3eb !important;
+    }
+
+    /* 2. 普通榜单选项：字体纯白 */
+    .rank-sidebar.open .rank-cat {
+        color: #ffffff !important;
+    }
+
+    /* 3. 选中的榜单选项：白底蓝字（保持对比度） */
+    .rank-sidebar.open .rank-cat.active {
+        background: #ffffff !important;
+        color: #7db3eb !important;
+        font-weight: bold !important;
+    }
+
+    /* 4. 分类标题（如🔥热门）：字号放大60%，黑色，加粗，斜体 */
+    .rank-sidebar.open .rank-group-title {
+        font-size: 1.6em !important; /* 基准12px * 1.6 = 19.2px */
+        color: #000000 !important;   /* 纯黑 */
+        font-weight: 900 !important; /* 极度加粗 */
+        font-style: italic !important; /* 斜体 */
+        letter-spacing: 1px !important;
+        
+        /* 让分类标题居中，底下加一条淡淡的分割线，更美观 */
+        text-align: center !important;
+        border-bottom: 1px dashed rgba(0, 0, 0, 0.2) !important;
+        padding-bottom: 5px !important;
+        margin-top: 15px !important;
+        margin-bottom: 10px !important;
+    }
+}
+
+/* ==========================================
+   🚀 临时隐藏：5大平台、飙升榜下拉框、下拉菜单
+   ========================================== */
+@media (max-width: 768px) {
+    /* 1. 隐藏 5大平台 按钮栏 */
+    .rank-platform-bar {
+        display: none !important; 
+    }
+
+    /* 2. 隐藏 飙升榜 下拉框（标题栏） */
+    .rank-header {
+        display: none !important; 
+    }
+
+    /* 3. 隐藏 展开的下拉菜单（防止展开） */
+    .rank-sidebar,
+    .rank-sidebar.open {
+        display: none !important; 
+    }
+}
+
+/* ==========================================
+   🚀 完美还原：5大平台套用导航栏样式，解除隐藏
+   ========================================== */
+@media (max-width: 768px) {
+    /* 1. 解除所有隐藏 */
+    .rank-platform-bar,
+    .rank-header,
+    .rank-sidebar,
+    .rank-sidebar.open {
+        display: flex !important; 
+    }
+    
+    /* 重置侧边栏的定位，防止乱飘 */
+    .rank-sidebar {
+        position: relative !important;
+        background: var(--bg2) !important;
+    }
+
+    /* ==========================================
+       2. 5大平台按钮：完全复刻上方导航栏的极简风
+       ========================================== */
+    .rank-platform-bar {
+        display: flex !important;
+        justify-content: space-between !important;
+        align-items: center !important;
+        
+        /* 取消之前的全屏贴边和拉伸 */
+        margin: 12px !important;
+        padding: 0 !important;
+        width: calc(100% - 24px) !important;
+        background: transparent !important;
+        border: none !important;
+        box-shadow: none !important;
+        gap: 8px !important;
+    }
+
+    .rank-platform-bar .platform-btn {
+        flex: 1 !important;
+        margin: 0 !important;
+        padding: 10px 0 !important;
+        
+        /* 套用导航栏未选中状态：浅灰底、圆角、深色字 */
+        background: var(--bg3) !important;
+        border: 1px solid var(--border) !important;
+        border-radius: 8px !important;
+        color: var(--text) !important;
+        font-size: 14px !important;
+        font-weight: 500 !important;
+        box-shadow: none !important;
+        transition: all 0.2s !important;
+    }
+
+    /* 选中状态：纯净主题蓝 */
+    .rank-platform-bar .platform-btn.active {
+        background: var(--blue) !important;
+        border-color: var(--blue) !important;
+        color: #ffffff !important;
+        box-shadow: 0 2px 6px rgba(9, 105, 218, 0.3) !important;
+    }
+
+    /* ==========================================
+       3. 下拉框与菜单：恢复干净的卡片样式
+       ========================================== */
+    .rank-header {
+        margin: 0 12px 12px 12px !important;
+        width: calc(100% - 24px) !important;
+        background: var(--bg2) !important;
+        border: 1px solid var(--border) !important;
+        border-radius: 8px !important;
+        padding: 12px 16px !important;
+        display: flex !important;
+        justify-content: space-between !important;
+        align-items: center !important;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.05) !important;
+    }
+
+    /* 菜单展开时的干净底色 */
+    .rank-sidebar.open {
+        background: var(--bg2) !important;
+        border: 1px solid var(--border) !important;
+        margin: 0 12px 12px 12px !important;
+        border-radius: 8px !important;
+    }
+    
+    /* 菜单里普通选项 */
+    .rank-sidebar.open .rank-cat {
+        color: var(--text) !important;
+        background: transparent !important;
+    }
+}
+
+
+@media (max-width: 768px) {
+    /* 1. 遮罩层与模糊 */
+    .cat-overlay {
+        display: none;
+        position: fixed !important;
+        inset: 0 !important;
+        background: rgba(0, 0, 0, 0.4) !important;
+        backdrop-filter: blur(12px) !important;
+        -webkit-backdrop-filter: blur(12px) !important;
+        z-index: 99998 !important;
+    }
+    .cat-overlay.show {
+        display: block !important;
+    }
+
+    /* 2. 弹窗本体，默认彻底隐藏 */
+    .rank-sidebar {
+        display: none !important;
+    }
+    .rank-sidebar.open {
+        display: block !important;
+        position: fixed !important;
+        top: 50% !important;
+        left: 50% !important;
+        transform: translate(-50%, -50%) !important;
+        width: 85vw !important;
+        max-width: 400px !important;
+        max-height: 70vh !important;
+        overflow-y: auto !important;
+        z-index: 99999 !important;
+        padding: 20px !important;
+        border-radius: 16px !important;
+        box-shadow: 0 20px 50px rgba(0,0,0,0.3) !important;
+        box-sizing: border-box !important;
+    }
+
+    /* 3. 主题自适应 */
+    html[data-theme="light"] .rank-sidebar.open {
+        background: #ffffff !important;
+        border: 1px solid #e1e4e8 !important;
+    }
+    html[data-theme="classic"] .rank-sidebar.open {
+        background: #161b22 !important;
+        border: 1px solid #30363d !important;
+    }
+
+    /* 4. 分类标题（纯黑、加粗、斜体、放大60%） */
+    .rank-sidebar.open .rank-group-title {
+        text-align: center !important;
+        color: #000000 !important; 
+        font-weight: 900 !important;
+        font-style: italic !important;
+        font-size: 1.6em !important;
+        border-bottom: 1px dashed rgba(0,0,0,0.2) !important;
+        padding-bottom: 5px !important;
+        margin: 15px 0 10px 0 !important;
+    }
+
+    /* 5. 菜单选项 */
+    .rank-sidebar.open .rank-cat {
+        width: 100% !important;
+        text-align: left !important;
+        padding: 12px 16px !important;
+        margin-bottom: 8px !important;
+        border-radius: 8px !important;
+        background: transparent !important;
+        border: 1px solid transparent !important;
+    }
+    
+    /* 选中项高亮 */
+    .rank-sidebar.open .rank-cat.active {
+        background: var(--blue) !important;
+        color: #ffffff !important;
+        font-weight: bold !important;
+    }
+}
+
+/* ==========================================
+   🚀 彻底铲除：隐藏所有飙升榜文字和下拉菜单
+   ========================================== */
+@media (max-width: 768px) {
+    /* 1. 干掉那个带名字的框，不管它是按钮还是文字 */
+    .rank-header {
+        display: none !important; 
+    }
+
+    /* 2. 干掉展开的榜单侧边栏 */
+    .rank-sidebar {
+        display: none !important;
+    }
+
+    /* 3. 干掉黑色遮罩 */
+    .cat-overlay {
+        display: none !important;
+    }
+    
+    /* 4. 调整一下上边距，让歌曲列表紧凑点 */
+    .rank-body {
+        margin-top: 0 !important;
+        padding-top: 0 !important;
+    }
+    
+    /* 5. 平台按钮排版保持极简 */
+    .rank-platform-bar {
+        display: flex !important;
+        justify-content: space-between !important;
+        margin: 12px !important;
+        padding: 0 !important;
+        width: calc(100% - 24px) !important;
+        background: transparent !important;
+        gap: 8px !important;
+    }
+    .rank-platform-bar .platform-btn {
+        flex: 1 !important;
+        margin: 0 !important;
+        padding: 10px 0 !important;
+        background: var(--bg3) !important;
+        border: 1px solid var(--border) !important;
+        border-radius: 8px !important;
+        color: var(--text) !important;
+        font-size: 14px !important;
+        font-weight: 500 !important;
+    }
+    .rank-platform-bar .platform-btn.active {
+        background: var(--blue) !important;
+        border-color: var(--blue) !important;
+        color: #ffffff !important;
+    }
+}
+
+@media (max-width: 768px) {
+    /* 彻底隐藏原版的头部和侧边栏 */
+    .rank-header, .rank-sidebar, .rank-sidebar.open, .cat-overlay {
+        display: none !important; 
+    }
+
+    /* 保持 5大平台 的极简胶囊样式 */
+    .rank-platform-bar {
+        display: flex !important;
+        justify-content: space-between !important;
+        margin: 12px !important;
+        padding: 0 !important;
+        width: calc(100% - 24px) !important;
+        background: transparent !important;
+        gap: 8px !important;
+    }
+    .rank-platform-bar .platform-btn {
+        flex: 1 !important;
+        margin: 0 !important;
+        padding: 10px 0 !important;
+        background: var(--bg3) !important;
+        border: 1px solid var(--border) !important;
+        border-radius: 8px !important;
+        color: var(--text) !important;
+        font-size: 14px !important;
+        font-weight: 500 !important;
+    }
+    .rank-platform-bar .platform-btn.active {
+        background: var(--blue) !important;
+        border-color: var(--blue) !important;
+        color: #ffffff !important;
+    }
+
+    /* ==========================================
+       🚀 全新独立弹窗样式
+       ========================================== */
+    .my-modal-overlay {
+        position: fixed !important;
+        inset: 0 !important;
+        background: rgba(0, 0, 0, 0.5) !important;
+        backdrop-filter: blur(10px) !important;
+        -webkit-backdrop-filter: blur(10px) !important;
+        z-index: 99998 !important;
+        display: none;
+    }
+    .my-modal-overlay.show {
+        display: block !important;
+    }
+
+    .my-modal-content {
+        position: fixed !important;
+        top: 50% !important;
+        left: 50% !important;
+        transform: translate(-50%, -50%) !important;
+        width: 85vw !important;
+        max-width: 400px !important;
+        max-height: 70vh !important;
+        z-index: 99999 !important;
+        border-radius: 16px !important;
+        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4) !important;
+        display: none;
+        flex-direction: column !important;
+        padding: 20px !important;
+        box-sizing: border-box !important;
+    }
+    .my-modal-content.show {
+        display: flex !important;
+    }
+
+    /* 主题适配 */
+    html[data-theme="light"] .my-modal-content {
+        background: #ffffff !important;
+        border: 1px solid #e1e4e8 !important;
+        color: #1f2328 !important;
+    }
+    html[data-theme="classic"] .my-modal-content {
+        background: #161b22 !important;
+        border: 1px solid #30363d !important;
+        color: #e6edf3 !important;
+    }
+
+    /* 弹窗内部滚动区 */
+    .my-modal-scroll {
+        flex: 1 !important;
+        overflow-y: auto !important;
+        -webkit-overflow-scrolling: touch !important;
+        margin-top: 10px !important;
+    }
+
+    /* 分类标题 */
+    .my-modal-content .rank-group-title {
+        text-align: center !important;
+        font-size: 1.4em !important;
+        font-weight: 900 !important;
+        font-style: italic !important;
+        margin: 15px 0 10px 0 !important;
+        padding-bottom: 5px !important;
+        border-bottom: 1px dashed rgba(128, 128, 128, 0.3) !important;
+    }
+
+    /* 榜单按钮 */
+    .my-modal-content .rank-cat {
+        display: block !important;
+        width: 100% !important;
+        text-align: left !important;
+        padding: 12px 16px !important;
+        margin-bottom: 8px !important;
+        border-radius: 8px !important;
+        background: transparent !important;
+        border: 1px solid transparent !important;
+        font-size: 15px !important;
+        font-weight: 500 !important;
+        cursor: pointer !important;
+        box-sizing: border-box !important;
+    }
+    
+    html[data-theme="light"] .my-modal-content .rank-cat {
+        color: #1f2328 !important;
+    }
+    html[data-theme="classic"] .my-modal-content .rank-cat {
+        color: #e6edf3 !important;
+    }
+    
+    /* 选中高亮 */
+    .my-modal-content .rank-cat.active {
+        background: var(--blue) !important;
+        color: #ffffff !important;
+    }
+}
+
+/* ==========================================
+   🚀 终极强制对齐：三大按钮统一高度
+   ========================================== */
+#tab-download .toolbar {
+    display: flex !important;
+    align-items: center !important; /* 垂直居中 */
+    flex-wrap: wrap !important;
+    gap: 10px !important;
+}
+
+/* 强行覆盖按钮和下拉框的内联/外联样式 */
+#tab-download .tool-btn,
+#tab-download #threadSelect {
+    height: 34px !important; /* 强制统一高度 */
+    line-height: 32px !important; /* 文字行高适配 */
+    box-sizing: border-box !important; /* 高度包含边框 */
+    font-size: 13px !important; /* 字体大小统一 */
+    padding: 0 12px !important; /* 取消上下 padding，保留左右 */
+    margin: 0 !important; /* 去除外边距 */
+    vertical-align: middle !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+}
+
+/* 给下拉框右侧留出箭头空间 */
+#tab-download #threadSelect {
+    padding-right: 4px !important;
+}
+
+/* ==========================================
+   🚀 终极换装：8色霓虹透明边框按钮
+   ========================================== */
+@media (max-width: 768px) {
+    /* 基础样式：统一去底色，透明，加边框 */
+    .global-toolbar > .tool-btn,
+    .global-toolbar .toolbar-row2 > .tool-btn {
+        background: transparent !important; 
+        border-width: 1.5px !important; /* 边框稍微加粗，更有质感 */
+        border-style: solid !important;
+        font-weight: 600 !important;
+        box-shadow: none !important;
+    }
+
+    /* 1. 全选 - 蔚蓝 */
+    .global-toolbar #rankSelectAll {
+        border-color: #3b82f6 !important;
+        color: #3b82f6 !important;
+    }
+
+    /* 2. 反选 - 翠绿 */
+    .global-toolbar #rankInvert {
+        border-color: #10b981 !important;
+        color: #10b981 !important;
+    }
+
+    /* 3. 取消选择 - 琥珀黄 */
+    .global-toolbar #rankClearSel {
+        border-color: #f59e0b !important;
+        color: #f59e0b !important;
+    }
+
+    /* 4. 全部播放 - 紫罗兰 */
+    .global-toolbar #rankPlayAll {
+        border-color: #8b5cf6 !important;
+        color: #8b5cf6 !important;
+    }
+
+    /* 5. 选中播放 - 青色 */
+    .global-toolbar #rankPlaySelected {
+        border-color: #06b6d4 !important;
+        color: #06b6d4 !important;
+    }
+
+    /* 6. 删除本地 (原下载到NAS) - 绯红 */
+    .global-toolbar #rankDownloadNAS {
+        border-color: #ef4444 !important;
+        color: #ef4444 !important;
+    }
+
+    /* 7. 保存到歌单 - 玫瑰粉 */
+    .global-toolbar #rankSavePlaylist {
+        border-color: #ec4899 !important;
+        color: #ec4899 !important;
+    }
+
+    /* 8. 清除记录 (原获取链接) - 绿松石 */
+    .global-toolbar #rankCopyLinks {
+        border-color: #14b8a6 !important;
+        color: #14b8a6 !important;
+    }
+}
+
+/* ==========================================
+   🚀 音质弹窗背景模糊处理
+   ========================================== */
+.quality-modal {
+    background: rgba(0, 0, 0, 0.4) !important; /* 稍微降低一点黑底浓度，让模糊效果更好看 */
+    backdrop-filter: blur(12px) !important;    /* 核心：高斯模糊 */
+    -webkit-backdrop-filter: blur(12px) !important; /* 兼容苹果 Safari */
+}
+
+/* ==========================================
+   🚀 终极样式统一：胶囊按钮，强制不换行
+   ========================================== */
+/* 覆盖暂停、取消任务、一键重试 */
+#tab-download .toolbar .tool-btn,
+#tab-download .nav-pill-btn {
+    background: var(--bg3) !important; 
+    border: 1px solid var(--border) !important;
+    color: var(--text) !important;
+    border-radius: 20px !important; /* 胶囊圆角 */
+    padding: 6px 14px !important;
+    font-size: 13px !important;
+    font-weight: 500 !important;
+    white-space: nowrap !important; /* 核心：强制不换行 */
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    height: 34px !important; /* 统一高度 */
+    box-sizing: border-box !important;
+    cursor: pointer !important;
+    transition: all 0.2s !important;
+}
+
+/* 悬浮交互反馈 */
+#tab-download .toolbar .tool-btn:hover,
+#tab-download .nav-pill-btn:hover {
+    background: var(--bg2) !important;
+    border-color: var(--text2) !important;
+}
+
+/* 特别处理一键重试按钮的布局，让它贴右且不撑破 */
+#tab-download .nav-pill-btn {
+    margin-left: auto !important;
+}
+
+/* ==========================================
+   🚀 终极修正：按钮圆角与导航栏对齐
+   ========================================== */
+#tab-download .toolbar .tool-btn,
+#tab-download .nav-pill-btn {
+    border-radius: 8px !important; /* 恢复为圆角矩形，和导航栏一致 */
+    padding: 6px 16px !important;  /* 稍微加宽一点左右间距，让文字不局促 */
+    background: var(--bg3) !important;
+    border: 1px solid var(--border) !important;
+    color: var(--text) !important;
+    height: 34px !important;
+    white-space: nowrap !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+}
+
+/* 悬浮反馈 */
+#tab-download .toolbar .tool-btn:hover,
+#tab-download .nav-pill-btn:hover {
+    border-color: var(--text2) !important;
+}
+
+/* 一键重试按钮靠右显示 */
+#tab-download .nav-pill-btn {
+    margin-left: auto !important;
+}
+
+
+/* 标题栏 Logo 终极样式 */
+.app-logo {
+    font-weight: 800 !important;      /* 极度加粗 */
+    font-style: italic !important;    /* 斜体 */
+    font-size: 1.2em !important;      /* 字体在原基础放大 20% */
+    letter-spacing: 1px !important;   /* 字间距微调，更有设计感 */
+}
+
+/* ==========================================
+   🚀 标题字号再次放大 50%
+   ========================================== */
+.app-logo {
+    /* 之前是 1.2em，乘以 1.5 约等于 1.8em */
+    font-size: 1.8em !important; 
+}
+
+/* ==========================================
+   🚀 白色主题专属：标题栏换黑底 + 白字
+   ========================================== */
+html[data-theme="light"] .topbar {
+    background: #000000 !important;
+    border-bottom: 1px solid #333333 !important;
+}
+
+/* 黑底下的标题文字变成纯白，更醒目 */
+html[data-theme="light"] .app-logo {
+    color: #ffffff !important;
+}
+
+/* 右侧的按钮适配黑底（把按钮原来的白色背景变深） */
+html[data-theme="light"] .topbar-right .icon-btn,
+html[data-theme="light"] .topbar-right .theme-btn {
+    background: #222222 !important;
+    border-color: #444444 !important;
+    color: #ffffff !important;
+}
+
+/* ==========================================
+   🚀 全局弹窗升级：设置页等全部应用毛玻璃
+   ========================================== */
+.modal {
+    background: rgba(0, 0, 0, 0.4) !important; /* 稍微调淡遮罩，让底色透出来 */
+    backdrop-filter: blur(12px) !important;    /* 核心：高斯模糊 */
+    -webkit-backdrop-filter: blur(12px) !important; /* 兼容苹果 Safari */
+}
+
+/* ==========================================
+   🚀 完美终结：设置弹窗恢复居中卡片，展现底层毛玻璃
+   ========================================== */
+@media (max-width: 768px) {
+    /* 强行覆盖全屏样式，变回悬浮卡片 */
+    .modal .modal-content {
+        width: 90vw !important;          /* 左右留出缝隙，透出模糊 */
+        max-width: 450px !important;
+        height: auto !important;         /* 高度自适应内容 */
+        max-height: 80vh !important;     /* 最高占屏幕 80% */
+        border-radius: 16px !important;  /* 恢复大圆角 */
+        padding-top: 0 !important;       /* 移除刘海屏的顶部安全区 padding */
+        padding-bottom: 0 !important;
+        
+        /* 加上一点边框和阴影，提升悬浮质感 */
+        border: 1px solid var(--border) !important;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5) !important;
+        margin: auto !important;
+        
+        /* 内容溢出时，让里面可以独立滚动，而不是整个屏幕滚 */
+        display: flex !important;
+        flex-direction: column !important;
+        overflow: hidden !important;
+    }
+
+    /* 让内部的 header 和 body 正常滚动 */
+    .modal .modal-header {
+        flex-shrink: 0 !important;
+    }
+    .modal .modal-body {
+        overflow-y: auto !important;
+        -webkit-overflow-scrolling: touch !important;
+    }
+}
+
+/* ==========================================
+   🚀 修复设置弹窗顶部多余空白
+   ========================================== */
+.modal .modal-header {
+    /* 把原来的 40px 顶部空白压缩到 16px，左右保持 20px，底部 16px */
+    padding: 16px 20px !important; 
+}
+
+/* ==========================================
+   🚀 修复“粘贴/上传”按钮顶部贴紧问题
+   ========================================== */
+.playlist-actions {
+    margin-top: 16px !important; /* 强行给顶部撑开 16px 的呼吸空间 */
+}
+
+/* ==========================================
+   🚀 歌单列表间距对齐排行榜
+   ========================================== */
+.playlist-grid {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 6px !important; /* 强行把间距压缩到 6px */
+    margin-bottom: 20px !important;
+}
+
+/* ==========================================
+   🚀 修复通用弹窗内容顶格问题
+   ========================================== */
+#myUniversalModal .modal-content {
+    /* 强行覆盖全局的 padding 清零，恢复 25px 的四周留白 */
+    padding: 25px !important; 
+}
+
+/* ==========================================
+   🚀 右上角按钮极简风格覆盖
+   ========================================== */
+.icon-btn.theme-btn {
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    padding: 0 8px !important;
+    color: var(--text) !important;
+    transition: transform 0.15s, color 0.15s !important;
+}
+
+/* 悬浮/按压时的动态反馈 */
+.icon-btn.theme-btn:hover,
+.icon-btn.theme-btn:active {
+    transform: scale(1.15) !important;
+    color: var(--blue) !important;
+}
+
+/* 确保主题圆点居中且大小合适 */
+.theme-dot {
+    display: block;
+    transition: transform 0.2s;
+}
+.icon-btn.theme-btn:hover .theme-dot {
+    transform: scale(1.1);
+}
+
+
+/* ==========================================
+   🚀 修复音源仓库展开条在浅色模式下的瞎眼问题
+   ========================================== */
+div[style*="background:#222"],
+div[style*="background: #222"] {
+    background: var(--bg3) !important;
+    color: var(--text) !important;
+    border: 1px solid var(--border) !important;
+}
+div[style*="background:#222"] span,
+div[style*="background: #222"] span {
+    color: var(--text2) !important;
+}
+div[style*="background:#222"] b,
+div[style*="background: #222"] b {
+    color: var(--text) !important;
+}
+
+/* 修复确认弹窗四周贴边的问题 */
+#customConfirmModal .modal-content {
+    padding: 24px !important;
+}
+#customConfirmModal #confirmTitle {
+    margin-bottom: 16px !important;
+}
+#customConfirmModal #confirmDesc {
+    margin-bottom: 24px !important;
+    padding: 0 8px !important;
+}
+#customConfirmModal #confirmOk {
+    border-radius: 10px !important;
+    padding: 10px 0 !important;
+    font-size: 15px !important;
+}
+/* 强制隐藏手机端封面中间的暂停按钮 */
+@media (max-width: 768px) {
+  #fsPlayOverlay { display: none !important; }
+}
+
+/* 歌词全屏模式（点击封面后切换） */
+.fs-content.lyric-mode .fs-cover-wrap { display: none; }
+.fs-content.lyric-mode .fs-title { margin-top: 20px; }
+.fs-content.lyric-mode .fs-lyric { 
+  height: 65vh; 
+  font-size: 16px; 
+  line-height: 2.2; 
+}
+
+/* 顶部小封面切换按钮 */
+.fs-mini-cover {
+  position: absolute;
+  top: 16px;
+  left: 62px;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--text) 10%, transparent);
+  border: none;
+  color: var(--text);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  cursor: pointer;
+  z-index: 10;
+  box-sizing: border-box;
+}
+/* 确保和关闭按钮高度对齐 */
+.fs-close, .fs-mini-cover {
+  top: 16px;
+  width: 36px;
+  height: 36px;
+  line-height: 36px;
+  text-align: center;
+}
+.fs-mini-cover:hover { background: color-mix(in srgb, var(--text) 20%, transparent); }
+.fs-content.lyric-mode ~ .fs-mini-cover span::after { content: '封面'; }
