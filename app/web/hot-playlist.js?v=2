@@ -1,0 +1,162 @@
+// 热门歌单功能 - 独立文件，不影响原有代码
+var hotSrc = 'kw';
+
+function initHotPlaylist() {
+  // 多次尝试，确保 DOM 加载完成
+  var attempts = 0;
+  function tryInit() {
+    attempts++;
+    var playlistView = document.getElementById('playlistView');
+    if (!playlistView) {
+      if (attempts < 10) setTimeout(tryInit, 500);
+      return;
+    }
+    
+    // 防止重复添加
+    if (document.getElementById('hotPlaylistBtn')) return;
+    
+    // 在"我的歌单"页面顶部加热门歌单按钮
+    var btnDiv = document.createElement('div');
+    btnDiv.style.cssText = 'padding:8px 0;margin-bottom:8px;';
+    btnDiv.innerHTML = '<button id="hotPlaylistBtn" style="padding:8px 16px;background:#722ed1;color:white;border:none;border-radius:8px;cursor:pointer;font-size:14px;width:100%;">🔥 热门歌单</button>';
+    playlistView.insertBefore(btnDiv, playlistView.firstChild);
+    
+    // 给按钮加点击事件
+    document.getElementById('hotPlaylistBtn').addEventListener('click', showHotPlaylistModal);
+  }
+  tryInit();
+}
+
+function showHotPlaylistModal() {
+  // 创建弹窗
+  var modal = document.createElement('div');
+  modal.id = 'hotPlaylistModal';
+  modal.style.cssText = 'position:fixed;top:0;left:0;right:0;bottom:0;z-index:10000;background:rgba(0,0,0,0.5);backdrop-filter:blur(8px);';
+  modal.innerHTML = '<div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:90%;max-width:500px;max-height:80vh;background:var(--bg2);border-radius:16px;border:1px solid var(--border);display:flex;flex-direction:column;overflow:hidden;">'
+    + '<div style="padding:16px;border-bottom:1px solid var(--border);">'
+    + '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">'
+    + '<h3 style="margin:0;color:var(--text);">热门歌单</h3>'
+    + '<button id="hotModalClose" style="background:none;border:none;color:var(--text);font-size:20px;cursor:pointer;">✕</button>'
+    + '</div>'
+    + '<div style="display:flex;gap:6px;flex-wrap:wrap;">'
+    + '<button class="hot-src-btn" data-src="kw" style="padding:4px 10px;background:var(--blue);color:white;border:none;border-radius:4px;cursor:pointer;font-size:12px;">酷我</button>'
+    + '<button class="hot-src-btn" data-src="kg" style="padding:4px 10px;background:var(--bg3);color:var(--text);border:none;border-radius:4px;cursor:pointer;font-size:12px;">酷狗</button>'
+    + '<button class="hot-src-btn" data-src="mg" style="padding:4px 10px;background:var(--bg3);color:var(--text);border:none;border-radius:4px;cursor:pointer;font-size:12px;">咪咕</button>'
+    + '<button class="hot-src-btn" data-src="wy" style="padding:4px 10px;background:var(--bg3);color:var(--text);border:none;border-radius:4px;cursor:pointer;font-size:12px;">网易云</button>'
+    + '<button class="hot-src-btn" data-src="tx" style="padding:4px 10px;background:var(--bg3);color:var(--text);border:none;border-radius:4px;cursor:pointer;font-size:12px;">腾讯</button>'
+    + '</div>'
+    + '</div>'
+    + '<div id="hotPlaylistList" style="flex:1;overflow-y:auto;padding:16px;">加载中...</div>'
+    + '</div>';
+  
+  document.body.appendChild(modal);
+  
+  // 关闭按钮
+  document.getElementById('hotModalClose').addEventListener('click', function() {
+    modal.remove();
+  });
+  
+  // 平台切换按钮
+  document.querySelectorAll('.hot-src-btn').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      hotSrc = this.getAttribute('data-src');
+      document.querySelectorAll('.hot-src-btn').forEach(function(b) { b.style.background = 'var(--bg3)'; });
+      this.style.background = 'var(--blue)';
+      loadHotPlaylistList();
+    });
+  });
+  
+  // 加载歌单列表
+  loadHotPlaylistList();
+}
+
+function loadHotPlaylistList() {
+  var listDiv = document.getElementById('hotPlaylistList');
+  if (!listDiv) return;
+  listDiv.innerHTML = '加载中...';
+  
+  fetch('/api/music/songList/list?source=' + hotSrc + '&page=1', {
+    headers: {
+      'x-user-name': typeof currentUser !== 'undefined' ? currentUser : '',
+      'x-frontend-auth': typeof authPassword !== 'undefined' ? authPassword : '',
+    }
+  })
+  .then(function(r) { return r.json(); })
+  .then(function(data) {
+    var list = data.list || [];
+    if (!list.length) {
+      listDiv.innerHTML = '暂无歌单';
+      return;
+    }
+    
+    var html = '';
+    list.forEach(function(pl, i) {
+      html += '<div class="hot-playlist-item" data-id="' + pl.id + '" data-name="' + (pl.name || '').replace(/"/g, '&quot;') + '" style="padding:12px;margin:8px 0;background:var(--bg3);border-radius:8px;cursor:pointer;display:flex;align-items:center;gap:12px;">'
+        + '<div style="width:48px;height:48px;border-radius:6px;background:linear-gradient(135deg,#722ed1,#1890ff);display:flex;align-items:center;justify-content:center;color:white;font-size:20px;flex-shrink:0;">🎵</div>'
+        + '<div style="flex:1;min-width:0;">'
+        + '<div style="color:var(--text);font-size:14px;font-weight:500;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">' + (pl.name || '') + '</div>'
+        + '<div style="color:var(--text2);font-size:12px;margin-top:4px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">' + (pl.desc || '') + '</div>'
+        + '</div>'
+        + '</div>';
+    });
+    listDiv.innerHTML = html;
+    
+    // 加点击事件
+    listDiv.querySelectorAll('.hot-playlist-item').forEach(function(item) {
+      item.addEventListener('click', function() {
+        var id = this.getAttribute('data-id');
+        var name = this.getAttribute('data-name');
+        loadHotPlaylistDetail(id, name);
+      });
+    });
+  })
+  .catch(function(e) {
+    listDiv.innerHTML = '加载失败: ' + e.message;
+  });
+}
+
+function loadHotPlaylistDetail(id, name) {
+  var listDiv = document.getElementById('hotPlaylistList');
+  if (!listDiv) return;
+  listDiv.innerHTML = '加载歌单详情...';
+  
+  fetch('/api/music/songList/detail?source=' + hotSrc + '&id=' + encodeURIComponent(id), {
+    headers: {
+      'x-user-name': typeof currentUser !== 'undefined' ? currentUser : '',
+      'x-frontend-auth': typeof authPassword !== 'undefined' ? authPassword : '',
+    }
+  })
+  .then(function(r) { return r.json(); })
+  .then(function(data) {
+    var songs = data.list || [];
+    var html = '<div style="margin-bottom:12px;display:flex;gap:8px;align-items:center;">'
+      + '<button onclick="loadHotPlaylistList()" style="padding:4px 12px;background:var(--bg3);color:var(--text);border:none;border-radius:6px;cursor:pointer;font-size:12px;">← 返回</button>'
+      + '<span style="color:var(--text);font-size:14px;flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">' + name + '</span>'
+      + '</div>';
+    
+    if (!songs.length) {
+      html += '<div style="text-align:center;color:var(--text2);padding:20px;">暂无歌曲</div>';
+    } else {
+      songs.forEach(function(song, i) {
+        html += '<div style="padding:10px;margin:6px 0;background:var(--bg3);border-radius:6px;display:flex;align-items:center;gap:10px;">'
+          + '<span style="color:var(--text2);font-size:12px;width:20px;flex-shrink:0;">' + (i+1) + '</span>'
+          + '<div style="flex:1;min-width:0;">'
+          + '<div style="color:var(--text);font-size:13px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">' + (song.name || '') + '</div>'
+          + '<div style="color:var(--text2);font-size:11px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">' + (song.singer || '') + '</div>'
+          + '</div>'
+          + '</div>';
+      });
+    }
+    listDiv.innerHTML = html;
+  })
+  .catch(function(e) {
+    listDiv.innerHTML = '加载失败: ' + e.message;
+  });
+}
+
+// 初始化
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initHotPlaylist);
+} else {
+  initHotPlaylist();
+}
